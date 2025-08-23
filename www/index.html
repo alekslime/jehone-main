@@ -1,0 +1,2819 @@
+<!DOCTYPE html>
+<html lang="sq">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Jehonë - Platforma Edukative për Studentët me Aftësi të Kufizuara Pamore</title>
+<meta name="description" content="Jehonë është platforma e parë edukative në gjuhën shqipe që përdor teknologjinë e njohjes së zërit për të krijuar një përvojë mësimi të aksesueshme për studentët me aftësi të kufizuara pamore.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.cdnfonts.com/css/metropolis-2" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&family=Poppins:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+        /* Root Variables for Theme */
+        :root {
+            --bg-primary: linear-gradient(135deg, #8c7acb 0%, #68489a 25%, #4f258d 50%, #abb4f9 100%);
+            --bg-secondary: rgba(255, 255, 255, 0.1);
+            --text-primary: white;
+            --text-secondary: #4a5568;
+            --card-bg: rgba(255, 255, 255, 0.1);
+            --nav-bg: rgba(140, 122, 203, 0.15);
+            --accent-color: #8c7acb;
+        }
+
+        [data-theme="dark"] {
+            --bg-primary: linear-gradient(135deg, #2d1b4e 0%, #1a0f2e 25%, #0f0519 50%, #3d2a5c 100%);
+            --bg-secondary: rgba(0, 0, 0, 0.3);
+            --text-primary: #e2e8f0;
+            --text-secondary: #a0aec0;
+            --card-bg: rgba(0, 0, 0, 0.2);
+            --nav-bg: rgba(45, 27, 78, 0.8);
+            --accent-color: #9f7aea;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background: var(--bg-primary);
+            background-size: 400% 400%;
+            animation: gradientShift 15s ease infinite;
+            color: var(--text-primary);
+            overflow-x: hidden;
+            position: relative;
+            transition: all 0.3s ease;
+        }
+
+        /* Enhanced animated background with more visible floating elements */
+        body::before {
+            content: '';
+            position: fixed;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: 
+                radial-gradient(circle at 20% 80%, rgba(140, 122, 203, 0.8) 0%, transparent 50%),
+                radial-gradient(circle at 80% 20%, rgba(104, 72, 154, 0.7) 0%, transparent 50%),
+                radial-gradient(circle at 40% 40%, rgba(79, 37, 141, 0.6) 0%, transparent 50%);
+            animation: floatShapes 20s ease-in-out infinite;
+            z-index: -2;
+        }
+
+        body::after {
+            content: '';
+            position: fixed;
+            top: -50%;
+            right: -50%;
+            width: 200%;
+            height: 200%;
+            background: 
+                radial-gradient(circle at 60% 60%, rgba(171, 180, 249, 0.7) 0%, transparent 50%),
+                radial-gradient(circle at 90% 10%, rgba(140, 122, 203, 0.6) 0%, transparent 50%);
+            animation: floatCircle 25s ease-in-out infinite reverse;
+            z-index: -2;
+        }
+
+        .floating-shape {
+            position: fixed;
+            border-radius: 50%;
+            z-index: -1;
+            animation: morphShape 30s ease-in-out infinite;
+        }
+
+        .floating-shape:nth-child(1) {
+            width: 300px;
+            height: 300px;
+            background: radial-gradient(circle, rgba(140, 122, 203, 0.8), rgba(104, 72, 154, 0.4));
+            top: 10%;
+            left: 10%;
+            animation-delay: 0s;
+        }
+
+        .floating-shape:nth-child(2) {
+            width: 250px;
+            height: 250px;
+            background: radial-gradient(circle, rgba(171, 180, 249, 0.7), rgba(140, 122, 203, 0.3));
+            top: 60%;
+            right: 15%;
+            animation-delay: -10s;
+        }
+
+        .floating-shape:nth-child(3) {
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, rgba(79, 37, 141, 0.9), rgba(104, 72, 154, 0.5));
+            bottom: 20%;
+            left: 20%;
+            animation-delay: -20s;
+        }
+
+        /* Reading Progress */
+        .reading-progress-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 4px;
+            background: rgba(255, 255, 255, 0.3);
+            z-index: 1000;
+            backdrop-filter: blur(20px);
+        }
+
+        .reading-progress-bar {
+            height: 100%;
+            background: linear-gradient(90deg, #8c7acb, #4f258d, #abb4f9);
+            width: 0%;
+            transition: width 0.3s ease;
+        }
+
+        /* Accessibility Toolbar */
+        .accessibility-toolbar-toggle {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            font-size: 20px;
+            cursor: pointer;
+            z-index: 1001;
+            transition: all 0.3s ease;
+        }
+
+        .accessibility-toolbar-toggle:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: scale(1.1);
+        }
+
+        .accessibility-toolbar {
+            position: fixed;
+            top: 80px;
+            right: 20px;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            padding: 20px;
+            z-index: 1000;
+            display: none;
+            max-width: 300px;
+        }
+
+        .toolbar-content {
+            color: white;
+        }
+
+        .toolbar-section {
+            margin-bottom: 20px;
+        }
+
+        .toolbar-section h3 {
+            font-size: 14px;
+            font-weight: 600;
+            margin-bottom: 10px;
+            color: #abb4f9;
+        }
+
+        .toolbar-button {
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            color: white;
+            padding: 8px 12px;
+            border-radius: 8px;
+            margin: 4px;
+            cursor: pointer;
+            font-size: 12px;
+            transition: all 0.3s ease;
+        }
+
+        .toolbar-button:hover {
+            background: rgba(255, 255, 255, 0.2);
+            transform: translateY(-2px);
+        }
+
+        .toolbar-button.active {
+            background: linear-gradient(45deg, #4f258d, #68489a);
+        }
+
+        /* Navigation */
+        .navbar {
+            position: fixed;
+            top: 0;
+            left: 0;
+            right: 0;
+            background: var(--nav-bg);
+            backdrop-filter: blur(30px);
+            border-bottom: 1px solid rgba(255, 255, 255, 0.2);
+            z-index: 1000;
+            padding: 1rem 0;
+            transition: all 0.3s ease;
+        }
+
+        .nav-container {
+            max-width: 1200px;
+            margin: 0 auto;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0 2rem;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--text-primary);
+            text-decoration: none;
+            transition: all 0.3s ease;
+        }
+
+        /* Enhanced logo hover animation */
+        .logo:hover {
+            transform: scale(1.05);
+        }
+
+        .logo-icon {
+            width: 32px;
+            height: 32px;
+            background: linear-gradient(45deg, var(--accent-color), #4f258d);
+            border-radius: 8px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: bold;
+            transition: all 0.3s ease;
+        }
+
+        /* Logo icon rotation on hover */
+        .logo:hover .logo-icon {
+            transform: rotate(10deg);
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2rem;
+            list-style: none;
+        }
+
+        .nav-links a {
+            color: var(--text-secondary);
+            text-decoration: none;
+            font-weight: 500;
+            transition: all 0.3s ease;
+            padding: 0.5rem 1rem;
+            border-radius: 25px;
+            backdrop-filter: blur(10px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Enhanced nav link hover with slide effect */
+        .nav-links a::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, transparent, rgba(140, 122, 203, 0.2), transparent);
+            transition: left 0.5s ease;
+        }
+
+        .nav-links a:hover::before {
+            left: 100%;
+        }
+
+        .nav-links a:hover {
+            color: var(--accent-color);
+            background: var(--card-bg);
+            backdrop-filter: blur(15px);
+            transform: translateY(-2px);
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        /* Enhanced theme toggle with smooth transitions */
+        .theme-toggle {
+            background: var(--card-bg);
+            border: 1px solid rgba(140, 122, 203, 0.2);
+            border-radius: 50%;
+            width: 40px;
+            height: 40px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(20px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .theme-toggle::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: radial-gradient(circle, rgba(140, 122, 203, 0.3), transparent);
+            transition: all 0.3s ease;
+            border-radius: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .theme-toggle:hover::before {
+            width: 100px;
+            height: 100px;
+        }
+
+        .theme-toggle:hover {
+            background: rgba(140, 122, 203, 0.1);
+            border-color: var(--accent-color);
+            transform: scale(1.1) rotate(180deg);
+        }
+
+        .user-profile {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(45deg, var(--accent-color), #4f258d);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(20px);
+            position: relative;
+        }
+
+        /* Enhanced user profile hover with pulse effect */
+        .user-profile::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            border-radius: 50%;
+            background: linear-gradient(45deg, var(--accent-color), #4f258d);
+            opacity: 0;
+            transform: scale(1.2);
+            transition: all 0.3s ease;
+        }
+
+        .user-profile:hover::before {
+            opacity: 0.3;
+            transform: scale(1.5);
+        }
+
+        .user-profile:hover {
+            transform: scale(1.05);
+            box-shadow: 0 8px 25px rgba(140, 122, 203, 0.4);
+        }
+
+        /* Quick stats cards section */
+        .quick-stats {
+            position: fixed;
+            top: 100px;
+            right: 20px;
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            z-index: 999;
+        }
+
+        .stat-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            padding: 1rem;
+            min-width: 200px;
+            color: var(--text-primary);
+            transition: all 0.3s ease;
+            transform: translateX(100%);
+            animation: slideInRight 0.5s ease forwards;
+        }
+
+        .stat-card:nth-child(1) { animation-delay: 0.1s; }
+        .stat-card:nth-child(2) { animation-delay: 0.2s; }
+        .stat-card:nth-child(3) { animation-delay: 0.3s; }
+
+        .stat-card:hover {
+            transform: translateX(0) scale(1.05);
+            background: rgba(140, 122, 203, 0.2);
+        }
+
+        .stat-number {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: var(--accent-color);
+        }
+
+        .stat-label {
+            font-size: 0.8rem;
+            opacity: 0.8;
+        }
+
+        .dropdown-menu {
+            position: absolute;
+            top: 50px;
+            right: 0;
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 12px;
+            padding: 8px;
+            display: none;
+            min-width: 120px;
+        }
+
+        .dropdown-item {
+            background: none;
+            border: none;
+            color: white;
+            padding: 8px 12px;
+            width: 100%;
+            text-align: left;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .dropdown-item:hover {
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .mobile-menu-toggle {
+            display: none;
+            flex-direction: column;
+            gap: 4px;
+            background: none;
+            border: none;
+            cursor: pointer;
+        }
+
+        .mobile-menu-toggle span {
+            width: 25px;
+            height: 3px;
+            background: white;
+            border-radius: 2px;
+            transition: all 0.3s ease;
+        }
+
+        /* Hero Section */
+        .hero {
+            padding: 8rem 2rem 4rem;
+            text-align: center;
+            position: relative;
+        }
+
+        .hero-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .hero-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0.5rem;
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid rgba(140, 122, 203, 0.2);
+            padding: 0.75rem 1.5rem;
+            border-radius: 50px;
+            margin-bottom: 2rem;
+            backdrop-filter: blur(25px);
+            box-shadow: 0 8px 32px rgba(140, 122, 203, 0.1);
+        }
+
+        .hero-badge-icon {
+            font-size: 1.2rem;
+        }
+
+        .hero-badge-text {
+            color: #4a5568;
+            font-weight: 500;
+        }
+
+        .hero-title {
+            font-size: 3.5rem;
+            font-weight: 800;
+            line-height: 1.2;
+            margin-bottom: 1.5rem;
+            color: #2d1b69;
+        }
+
+        .gradient-text {
+            background: linear-gradient(45deg, #8c7acb, #4f258d, #abb4f9);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+        }
+
+        .hero-description {
+            font-size: 1.2rem;
+            line-height: 1.6;
+            color: rgba(255, 255, 255, 0.9);
+            margin-bottom: 2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .cta-primary {
+            background: linear-gradient(45deg, #8c7acb, #68489a);
+            border: none;
+            color: white;
+            padding: 16px 32px;
+            border-radius: 50px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(20px);
+            box-shadow: 0 8px 32px rgba(140, 122, 203, 0.3);
+        }
+
+        .cta-primary:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 12px 40px rgba(140, 122, 203, 0.4);
+        }
+
+        .floating-cards {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-50%, -50%);
+            width: 100%;
+            height: 100%;
+            pointer-events: none;
+            z-index: -1;
+        }
+
+        .floating-card {
+            position: absolute;
+            background: rgba(255, 255, 255, 0.8);
+            border: 1px solid rgba(140, 122, 203, 0.1);
+            border-radius: 20px;
+            padding: 1.5rem;
+            backdrop-filter: blur(30px);
+            box-shadow: 0 8px 32px rgba(140, 122, 203, 0.1);
+            animation: floatCard 6s ease-in-out infinite;
+        }
+
+        .floating-card:nth-child(1) {
+            top: 20%;
+            right: 10%;
+            animation-delay: 0s;
+        }
+
+        .floating-card:nth-child(2) {
+            bottom: 30%;
+            left: 15%;
+            animation-delay: -2s;
+        }
+
+        .floating-card:nth-child(3) {
+            top: 60%;
+            right: 20%;
+            animation-delay: -4s;
+        }
+
+        .card-icon {
+            width: 40px;
+            height: 40px;
+            background: linear-gradient(45deg, #8c7acb, #4f258d);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            margin-bottom: 0.5rem;
+        }
+
+        .card-title {
+            font-size: 0.9rem;
+            font-weight: 600;
+            color: #2d1b69;
+            margin-bottom: 0.25rem;
+        }
+
+        .card-description {
+            font-size: 0.8rem;
+            color: #6b7280;
+        }
+
+        .uliks-btn {
+            background: none;
+            border: none;
+            cursor: pointer;
+            width: 100%;
+            height: 100%;
+        }
+
+        @keyframes gradientShift {
+            0%, 100% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+        }
+
+        @keyframes floatShapes {
+            0%, 100% { transform: translate(0px, 0px) rotate(0deg); }
+            33% { transform: translate(30px, -30px) rotate(120deg); }
+            66% { transform: translate(-20px, 20px) rotate(240deg); }
+        }
+
+        @keyframes floatCircle {
+            0%, 100% { transform: translate(0px, 0px) scale(1); }
+            50% { transform: translate(-20px, -20px) scale(1.1); }
+        }
+
+        @keyframes morphShape {
+            0%, 100% { transform: translate(0px, 0px) rotate(0deg) scale(1); border-radius: 50%; }
+            25% { transform: translate(20px, -20px) rotate(90deg) scale(1.1); border-radius: 30% 70% 70% 30% / 30% 30% 70% 70%; }
+            50% { transform: translate(-15px, 15px) rotate(180deg) scale(0.9); border-radius: 70% 30% 30% 70% / 70% 70% 30% 30%; }
+            75% { transform: translate(25px, 10px) rotate(270deg) scale(1.05); border-radius: 40% 60% 60% 40% / 60% 40% 60% 40%; }
+        }
+
+        /* New animation keyframes for enhanced effects */
+        @keyframes slideInRight {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        @keyframes pulse {
+            0%, 100% { transform: scale(1); }
+            50% { transform: scale(1.05); }
+        }
+
+        @keyframes glow {
+            0%, 100% { box-shadow: 0 0 5px rgba(140, 122, 203, 0.3); }
+            50% { box-shadow: 0 0 20px rgba(140, 122, 203, 0.6); }
+        }
+
+        /* Sections */
+        .subjects {
+            padding: 4rem 2rem;
+            background: var(--bg-secondary);
+            backdrop-filter: blur(20px);
+            transition: all 0.3s ease;
+        }
+
+        .features,
+        .accessibility-features,
+        .learning-tools,
+        .about {
+            padding: 6rem 0;
+            position: relative;
+        }
+
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 0 2rem;
+        }
+
+        .section-title {
+            font-size: 2.5rem;
+            font-weight: 700;
+            text-align: center;
+            margin-bottom: 1rem;
+            color: #2d1b69;
+        }
+
+        .section-description {
+            text-align: center;
+            font-size: 1.1rem;
+            color: #6b7280;
+            margin-bottom: 3rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .section-header {
+            text-align: center;
+            margin-bottom: 4rem;
+            color: white;
+        }
+
+        .section-header h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1rem;
+        }
+
+        .section-header p {
+            font-size: 1.2rem;
+            color: rgba(255, 255, 255, 0.8);
+        }
+
+        /* Subject Cards */
+        .subjects-container {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .subjects-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .subject-card {
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid rgba(140, 122, 203, 0.1);
+            border-radius: 20px;
+            padding: 2rem;
+            text-align: center;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(25px);
+            box-shadow: 0 8px 32px rgba(140, 122, 203, 0.05);
+        }
+
+        .subject-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 40px rgba(140, 122, 203, 0.15);
+            border-color: rgba(140, 122, 203, 0.3);
+        }
+
+        .subject-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(45deg, #8c7acb, #4f258d);
+            border-radius: 15px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 0 auto 1rem;
+            color: white;
+            font-size: 1.5rem;
+        }
+
+        .subject-title {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: #2d1b69;
+        }
+
+        .subject-description {
+            color: #6b7280;
+            margin-bottom: 1.5rem;
+            line-height: 1.6;
+        }
+
+        .subject-button {
+            background: linear-gradient(45deg, var(--accent-color), #68489a);
+            color: white;
+            border: none;
+            padding: 12px 24px;
+            border-radius: 25px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(15px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Enhanced button hover with ripple effect */
+        .subject-button::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 0;
+            height: 0;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 50%;
+            transition: all 0.3s ease;
+            transform: translate(-50%, -50%);
+        }
+
+        .subject-button:hover::before {
+            width: 300px;
+            height: 300px;
+        }
+
+        .subject-button:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(140, 122, 203, 0.4);
+            animation: glow 2s ease-in-out infinite;
+        }
+
+        /* Feature Cards */
+        .features-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+        }
+
+        .feature-card {
+            background: var(--card-bg);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            padding: 2rem;
+            color: var(--text-primary);
+            transition: all 0.3s ease;
+            position: relative;
+            overflow: hidden;
+        }
+
+        /* Enhanced feature card hover with slide-up effect */
+        .feature-card::before {
+            content: '';
+            position: absolute;
+            bottom: -100%;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(45deg, rgba(140, 122, 203, 0.1), rgba(104, 72, 154, 0.1));
+            transition: bottom 0.3s ease;
+        }
+
+        .feature-card:hover::before {
+            bottom: 0;
+        }
+
+        .feature-card:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 15px 35px rgba(140, 122, 203, 0.2);
+        }
+
+        .feature-icon {
+            width: 60px;
+            height: 60px;
+            background: linear-gradient(45deg, #4f258d, #68489a);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin-bottom: 1.5rem;
+            color: white;
+            font-size: 1.5rem;
+            transition: all 0.3s ease;
+        }
+
+        /* Feature icon hover animation */
+        .feature-card:hover .feature-icon {
+            transform: scale(1.1) rotate(10deg);
+            animation: pulse 1s ease-in-out infinite;
+        }
+
+        .feature-card h3 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .feature-card p {
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.6;
+        }
+
+        /* Accessibility Features */
+        .accessibility-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 2rem;
+        }
+
+        .accessibility-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            padding: 2rem;
+            color: white;
+            transition: all 0.3s ease;
+        }
+
+        .accessibility-card:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.15);
+        }
+
+        .accessibility-icon {
+            font-size: 2.5rem;
+            margin-bottom: 1rem;
+        }
+
+        .accessibility-card h3 {
+            font-size: 1.3rem;
+            font-weight: 600;
+            margin-bottom: 1rem;
+        }
+
+        .accessibility-card p {
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.6;
+            margin-bottom: 1rem;
+        }
+
+        .accessibility-card ul {
+            list-style: none;
+            margin-bottom: 1.5rem;
+        }
+
+        .accessibility-card li {
+            color: rgba(255, 255, 255, 0.8);
+            padding: 0.3rem 0;
+            position: relative;
+            padding-left: 1.5rem;
+        }
+
+        .accessibility-card li::before {
+            content: '✓';
+            position: absolute;
+            left: 0;
+            color: #abb4f9;
+            font-weight: bold;
+        }
+
+        /* Learning Tools */
+        .tools-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .tool-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 16px;
+            padding: 1.5rem;
+            text-align: center;
+            color: white;
+            cursor: pointer;
+            transition: all 0.3s ease;
+        }
+
+        .tool-card:hover {
+            transform: translateY(-5px);
+            background: rgba(255, 255, 255, 0.15);
+            box-shadow: 0 15px 30px rgba(79, 37, 141, 0.2);
+        }
+
+        .tool-icon {
+            font-size: 2rem;
+            margin-bottom: 1rem;
+        }
+
+        .tool-card h4 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+        }
+
+        .tool-card p {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.9rem;
+        }
+
+        /* About Section */
+        .about-content {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .about-text {
+            color: white;
+        }
+
+        .about-text h2 {
+            font-size: 2.5rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+        }
+
+        .about-lead {
+            font-size: 1.2rem;
+            line-height: 1.6;
+            margin-bottom: 1.5rem;
+            color: rgba(255, 255, 255, 0.9);
+        }
+
+        .about-text p {
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.6;
+            margin-bottom: 2rem;
+        }
+
+        .about-stats {
+            display: flex;
+            gap: 2rem;
+        }
+
+        .stat {
+            text-align: center;
+        }
+
+        .stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: #abb4f9;
+            margin-bottom: 0.5rem;
+        }
+
+        .stat-label {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.9rem;
+        }
+
+        .about-visual {
+            display: flex;
+            justify-content: center;
+        }
+
+        .about-card {
+            background: rgba(255, 255, 255, 0.1);
+            backdrop-filter: blur(20px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            border-radius: 20px;
+            padding: 2rem;
+            width: 300px;
+        }
+
+        .card-header {
+            display: flex;
+            justify-content: flex-start;
+            margin-bottom: 1.5rem;
+        }
+
+        .card-dots {
+            display: flex;
+            gap: 8px;
+        }
+
+        .card-dots span {
+            width: 12px;
+            height: 12px;
+            border-radius: 50%;
+            background: rgba(255, 255, 255, 0.3);
+        }
+
+        .card-dots span:first-child {
+            background: #ff5f56;
+        }
+
+        .card-dots span:nth-child(2) {
+            background: #ffbd2e;
+        }
+
+        .card-dots span:last-child {
+            background: #27ca3f;
+        }
+
+        .demo-line {
+            height: 12px;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 6px;
+            margin-bottom: 8px;
+        }
+
+        .demo-line.active {
+            background: linear-gradient(45deg, #4f258d, #abb4f9);
+            animation: pulse 2s ease-in-out infinite;
+        }
+
+        .demo-line.short {
+            width: 60%;
+        }
+
+        .demo-voice {
+            display: flex;
+            align-items: center;
+            gap: 12px;
+            margin-top: 1.5rem;
+            padding: 12px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 12px;
+            color: white;
+            font-size: 0.9rem;
+        }
+
+        .voice-indicator {
+            animation: pulse 1.5s ease-in-out infinite;
+        }
+
+        /* Footer */
+        .footer {
+            background: rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(20px);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 3rem 0 1rem;
+            color: white;
+        }
+
+        /* Redesigning Uliks as modern chatbot interface */
+        .uliks-modal {
+            position: fixed;
+            bottom: 2rem;
+            right: 2rem;
+            width: 420px;
+            height: 580px;
+            display: none;
+            flex-direction: column;
+            z-index: 10001;
+            background: linear-gradient(145deg, 
+                rgba(255, 255, 255, 0.95) 0%, 
+                rgba(248, 250, 252, 0.9) 50%,
+                rgba(240, 242, 247, 0.95) 100%);
+            backdrop-filter: blur(32px) saturate(180%);
+            border-radius: 24px;
+            border: 2px solid rgba(79, 37, 141, 0.12);
+            box-shadow: 
+                0 32px 64px rgba(79, 37, 141, 0.2),
+                0 16px 32px rgba(140, 122, 203, 0.15),
+                0 0 0 1px rgba(255, 255, 255, 0.9),
+                inset 0 2px 0 rgba(255, 255, 255, 0.95);
+            transform: scale(0.8) translateY(40px);
+            opacity: 0;
+            transition: all 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+            animation: chatbotFloat 8s ease-in-out infinite;
+            overflow: hidden;
+        }
+
+        .uliks-modal::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 1px;
+            background: linear-gradient(90deg, 
+                transparent, 
+                rgba(79, 37, 141, 0.3), 
+                rgba(140, 122, 203, 0.3),
+                rgba(171, 180, 249, 0.3),
+                transparent);
+            animation: shimmer 3s linear infinite;
+        }
+
+        .uliks-modal.active {
+            transform: scale(1) translateY(0px);
+            opacity: 1;
+        }
+
+        .uliks-header {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            padding: 1.5rem 2rem;
+            border-bottom: 1px solid rgba(79, 37, 141, 0.1);
+            background: linear-gradient(135deg, 
+                rgba(79, 37, 141, 0.04) 0%, 
+                rgba(140, 122, 203, 0.03) 50%,
+                rgba(171, 180, 249, 0.02) 100%);
+            position: relative;
+        }
+
+        .uliks-header::after {
+            content: '';
+            position: absolute;
+            bottom: 0;
+            left: 2rem;
+            right: 2rem;
+            height: 1px;
+            background: linear-gradient(90deg, 
+                transparent, 
+                rgba(79, 37, 141, 0.15), 
+                transparent);
+        }
+
+        .uliks-brand {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .uliks-avatar {
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, 
+                #4f258d 0%, 
+                #68489a 30%,
+                #8c7acb 70%,
+                #abb4f9 100%);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.6rem;
+            animation: avatarPulse 4s ease-in-out infinite;
+            box-shadow: 
+                0 8px 16px rgba(79, 37, 141, 0.3),
+                0 4px 8px rgba(140, 122, 203, 0.2),
+                inset 0 2px 4px rgba(255, 255, 255, 0.3);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .uliks-avatar::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: linear-gradient(45deg, 
+                transparent 30%, 
+                rgba(255, 255, 255, 0.3) 50%, 
+                transparent 70%);
+            animation: avatarShine 3s linear infinite;
+        }
+
+        .uliks-info h3 {
+            font-size: 1.25rem;
+            font-weight: 800;
+            color: #1a1a1a;
+            margin: 0;
+            background: linear-gradient(135deg, #4f258d 0%, #8c7acb 50%, #abb4f9 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            letter-spacing: -0.02em;
+        }
+
+        .uliks-info p {
+            font-size: 0.85rem;
+            color: #6b7280;
+            margin: 0;
+            font-weight: 600;
+            opacity: 0.8;
+        }
+
+        .uliks-close {
+            background: rgba(79, 37, 141, 0.1);
+            border: 1px solid rgba(79, 37, 141, 0.15);
+            color: #6b7280;
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 1.2rem;
+            font-weight: 600;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            backdrop-filter: blur(8px);
+        }
+
+        .uliks-close:hover {
+            background: rgba(79, 37, 141, 0.2);
+            color: #4f258d;
+            transform: scale(1.1) rotate(90deg);
+            box-shadow: 0 4px 8px rgba(79, 37, 141, 0.2);
+        }
+
+        .chat-area {
+            flex: 1;
+            padding: 2rem;
+            display: flex;
+            flex-direction: column;
+            gap: 1.5rem;
+            overflow-y: auto;
+            background: linear-gradient(180deg, 
+                rgba(79, 37, 141, 0.01) 0%, 
+                transparent 100%);
+        }
+
+        .chat-area::-webkit-scrollbar {
+            width: 6px;
+        }
+
+        .chat-area::-webkit-scrollbar-track {
+            background: rgba(79, 37, 141, 0.05);
+            border-radius: 3px;
+        }
+
+        .chat-area::-webkit-scrollbar-thumb {
+            background: linear-gradient(135deg, #8c7acb, #abb4f9);
+            border-radius: 3px;
+        }
+
+        .chat-message {
+            display: flex;
+            align-items: flex-start;
+            gap: 1rem;
+            animation: messageSlide 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .chat-message.ai {
+            flex-direction: row;
+        }
+
+        .chat-message.user {
+            flex-direction: row-reverse;
+        }
+
+        .message-avatar {
+            width: 36px;
+            height: 36px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1rem;
+            flex-shrink: 0;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+
+        .message-avatar.ai {
+            background: linear-gradient(135deg, #4f258d, #8c7acb);
+            color: white;
+        }
+
+        .message-avatar.user {
+            background: linear-gradient(135deg, #8c7acb, #abb4f9);
+            color: white;
+        }
+
+        .message-bubble {
+            max-width: 75%;
+            padding: 1rem 1.25rem;
+            border-radius: 20px;
+            font-size: 0.95rem;
+            line-height: 1.5;
+            position: relative;
+            font-weight: 500;
+            backdrop-filter: blur(8px);
+            transition: all 0.3s ease;
+        }
+
+        .message-bubble:hover {
+            transform: translateY(-1px);
+        }
+
+        .message-bubble.ai {
+            background: linear-gradient(135deg, 
+                rgba(79, 37, 141, 0.08) 0%, 
+                rgba(140, 122, 203, 0.06) 50%,
+                rgba(171, 180, 249, 0.04) 100%);
+            color: #1a1a1a;
+            border: 1px solid rgba(79, 37, 141, 0.12);
+            box-shadow: 0 4px 12px rgba(79, 37, 141, 0.08);
+        }
+
+        .message-bubble.user {
+            background: linear-gradient(135deg, #4f258d 0%, #68489a 50%, #8c7acb 100%);
+            color: white;
+            box-shadow: 0 4px 12px rgba(79, 37, 141, 0.25);
+        }
+
+        .voice-input-area {
+            padding: 2rem;
+            border-top: 1px solid rgba(79, 37, 141, 0.1);
+            background: linear-gradient(135deg, 
+                rgba(79, 37, 141, 0.03) 0%, 
+                rgba(140, 122, 203, 0.02) 50%,
+                rgba(171, 180, 249, 0.01) 100%);
+            position: relative;
+        }
+
+        .voice-input-area::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 2rem;
+            right: 2rem;
+            height: 1px;
+            background: linear-gradient(90deg, 
+                transparent, 
+                rgba(79, 37, 141, 0.15), 
+                transparent);
+        }
+
+        .voice-status {
+            text-align: center;
+            margin-bottom: 1.5rem;
+        }
+
+        .uliks-status {
+            font-size: 1rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #4f258d, #8c7acb);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            animation: statusPulse 2.5s ease-in-out infinite;
+            letter-spacing: -0.01em;
+        }
+
+        .waveform-container {
+            width: 100%;
+            height: 80px;
+            margin: 0 auto 1.5rem;
+            border-radius: 16px;
+            background: linear-gradient(135deg, 
+                rgba(79, 37, 141, 0.06) 0%, 
+                rgba(140, 122, 203, 0.04) 50%,
+                rgba(171, 180, 249, 0.03) 100%);
+            border: 2px solid rgba(79, 37, 141, 0.12);
+            overflow: hidden;
+            position: relative;
+            animation: waveformGlow 4s ease-in-out infinite;
+            backdrop-filter: blur(8px);
+        }
+
+        .waveform-container::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, 
+                transparent, 
+                rgba(79, 37, 141, 0.15), 
+                rgba(140, 122, 203, 0.1),
+                transparent);
+            animation: waveformScan 4s linear infinite;
+        }
+
+        #waveformCanvas {
+            width: 100%;
+            height: 100%;
+            border-radius: 14px;
+        }
+
+        .command-chips {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 0.75rem;
+            justify-content: center;
+        }
+
+        .command-chip {
+            background: rgba(79, 37, 141, 0.1);
+            border: 1.5px solid rgba(79, 37, 141, 0.2);
+            color: #4f258d;
+            padding: 0.6rem 1rem;
+            border-radius: 20px;
+            font-size: 0.8rem;
+            font-weight: 700;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+            backdrop-filter: blur(8px);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .command-chip::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: -100%;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(90deg, 
+                transparent, 
+                rgba(255, 255, 255, 0.3), 
+                transparent);
+            transition: left 0.6s ease;
+        }
+
+        .command-chip:hover {
+            background: linear-gradient(135deg, #4f258d, #68489a);
+            color: white;
+            transform: translateY(-2px) scale(1.05);
+            box-shadow: 0 8px 16px rgba(79, 37, 141, 0.3);
+            border-color: transparent;
+        }
+
+        .command-chip:hover::before {
+            left: 100%;
+        }
+
+        /* Enhanced animations with smoother transitions and better timing */
+        @keyframes chatbotFloat {
+            0%, 100% { 
+                transform: scale(1) translateY(0px);
+                box-shadow: 
+                    0 32px 64px rgba(79, 37, 141, 0.2),
+                    0 16px 32px rgba(140, 122, 203, 0.15);
+            }
+            50% { 
+                transform: scale(1) translateY(-4px);
+                box-shadow: 
+                    0 36px 72px rgba(79, 37, 141, 0.25),
+                    0 20px 40px rgba(140, 122, 203, 0.2);
+            }
+        }
+
+        @keyframes avatarPulse {
+            0%, 100% { 
+                box-shadow: 
+                    0 8px 16px rgba(79, 37, 141, 0.3),
+                    0 4px 8px rgba(140, 122, 203, 0.2);
+                transform: scale(1);
+            }
+            50% { 
+                box-shadow: 
+                    0 12px 24px rgba(79, 37, 141, 0.4),
+                    0 6px 12px rgba(140, 122, 203, 0.3);
+                transform: scale(1.05);
+            }
+        }
+
+        @keyframes avatarShine {
+            0% { transform: translateX(-100%) translateY(-100%) rotate(45deg); }
+            100% { transform: translateX(100%) translateY(100%) rotate(45deg); }
+        }
+
+        @keyframes messageSlide {
+            0% { 
+                opacity: 0;
+                transform: translateY(20px) scale(0.95);
+            }
+            100% { 
+                opacity: 1;
+                transform: translateY(0px) scale(1);
+            }
+        }
+
+        @keyframes statusPulse {
+            0%, 100% { opacity: 1; transform: scale(1); }
+            50% { opacity: 0.7; transform: scale(1.02); }
+        }
+
+        @keyframes waveformGlow {
+            0%, 100% { 
+                box-shadow: 0 4px 8px rgba(79, 37, 141, 0.1);
+                border-color: rgba(79, 37, 141, 0.12);
+            }
+            50% { 
+                box-shadow: 0 8px 16px rgba(79, 37, 141, 0.2);
+                border-color: rgba(79, 37, 141, 0.2);
+            }
+        }
+
+        @keyframes waveformScan {
+            0% { left: -100%; }
+            100% { left: 100%; }
+        }
+
+        @keyframes shimmer {
+            0% { transform: translateX(-100%); }
+            100% { transform: translateX(100%); }
+        }
+
+        /* Enhanced mobile responsive design with better proportions */
+        @media (max-width: 768px) {
+            .uliks-modal {
+                bottom: 1rem;
+                right: 1rem;
+                left: 1rem;
+                width: auto;
+                height: 520px;
+                border-radius: 20px;
+            }
+
+            .uliks-header {
+                padding: 1.25rem 1.5rem;
+            }
+
+            .uliks-avatar {
+                width: 44px;
+                height: 44px;
+                font-size: 1.4rem;
+            }
+
+            .chat-area {
+                padding: 1.5rem;
+                gap: 1.25rem;
+            }
+
+            .voice-input-area {
+                padding: 1.5rem;
+            }
+
+            .waveform-container {
+                height: 70px;
+            }
+
+            .command-chips {
+                gap: 0.5rem;
+            }
+
+            .command-chip {
+                padding: 0.5rem 0.8rem;
+                font-size: 0.75rem;
+            }
+        }
+
+        .footer-content {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        /* Footer */
+        .footer {
+            background: rgba(0, 0, 0, 0.2);
+            backdrop-filter: blur(20px);
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            padding: 3rem 0 1rem;
+            color: white;
+        }
+
+        .footer-content {
+            text-align: center;
+            margin-bottom: 2rem;
+        }
+
+        .footer-brand {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 1rem;
+            font-size: 1.5rem;
+            font-weight: 700;
+        }
+
+        .footer-content p {
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 2rem;
+            max-width: 600px;
+            margin-left: auto;
+            margin-right: auto;
+        }
+
+        .footer-links {
+            display: flex;
+            justify-content: center;
+            gap: 2rem;
+            flex-wrap: wrap;
+        }
+
+        .footer-link {
+            color: rgba(255, 255, 255, 0.7);
+            text-decoration: none;
+            transition: color 0.3s ease;
+        }
+
+        .footer-link:hover {
+            color: #abb4f9;
+        }
+
+        .footer-bottom {
+            text-align: center;
+            padding-top: 2rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.1);
+            color: rgba(255, 255, 255, 0.6);
+            font-size: 0.9rem;
+        }
+
+        /* Utility Classes */
+        .sr-only {
+            position: absolute;
+            width: 1px;
+            height: 1px;
+            padding: 0;
+            margin: -1px;
+            overflow: hidden;
+            clip: rect(0, 0, 0, 0);
+            white-space: nowrap;
+            border: 0;
+        }
+
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-menu {
+                display: none;
+            }
+            
+            .mobile-menu-toggle {
+                display: flex;
+            }
+            
+            .hero-container {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+            
+            .hero-title {
+                font-size: 2.5rem;
+            }
+            
+            .about-content {
+                grid-template-columns: 1fr;
+                text-align: center;
+            }
+            
+            .about-stats {
+                justify-content: center;
+            }
+            
+            .subjects-grid,
+            .features-grid,
+            .accessibility-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .tools-grid {
+                grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+            }
+            
+            .footer-links {
+                flex-direction: column;
+                gap: 1rem;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .nav-container {
+                padding: 1rem;
+            }
+            
+            .hero-title {
+                font-size: 2rem;
+            }
+            
+            .section-header h2 {
+                font-size: 2rem;
+            }
+            
+            .container {
+                padding: 0 1rem;
+            }
+        }
+
+        /* Adding comprehensive responsive media queries for mobile, tablet, and desktop */
+        
+        /* Mobile First - Base styles (320px and up) */
+        @media (min-width: 320px) {
+            .container {
+                padding: 0 1rem;
+            }
+            
+            .nav-container {
+                padding: 0 1rem;
+            }
+            
+            .hero {
+                padding: 6rem 1rem 3rem;
+            }
+            
+            .hero-title {
+                font-size: 2rem;
+                line-height: 1.1;
+            }
+            
+            .hero-description {
+                font-size: 1rem;
+                padding: 0 1rem;
+            }
+            
+            .section-header h2 {
+                font-size: 1.8rem;
+            }
+            
+            .section-description {
+                font-size: 1rem;
+                padding: 0 1rem;
+            }
+        }
+
+        /* Small Mobile (480px and up) */
+        @media (min-width: 480px) {
+            .container {
+                padding: 0 1.5rem;
+            }
+            
+            .nav-container {
+                padding: 0 1.5rem;
+            }
+            
+            .hero {
+                padding: 7rem 1.5rem 4rem;
+            }
+            
+            .hero-title {
+                font-size: 2.2rem;
+            }
+            
+            .hero-description {
+                font-size: 1.1rem;
+            }
+            
+            .section-header h2 {
+                font-size: 2rem;
+            }
+            
+            .subjects-grid,
+            .features-grid,
+            .accessibility-grid {
+                grid-template-columns: 1fr;
+                gap: 1.5rem;
+            }
+            
+            .tools-grid {
+                grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+                gap: 1.25rem;
+            }
+            
+            .quick-stats {
+                right: 1rem;
+                top: 90px;
+            }
+            
+            .stat-card {
+                min-width: 180px;
+                padding: 0.8rem;
+            }
+        }
+
+        /* Large Mobile / Small Tablet (600px and up) */
+        @media (min-width: 600px) {
+            .hero-title {
+                font-size: 2.5rem;
+            }
+            
+            .hero-description {
+                font-size: 1.15rem;
+            }
+            
+            .subjects-grid {
+                grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+                gap: 1.5rem;
+            }
+            
+            .features-grid {
+                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+                gap: 1.5rem;
+            }
+            
+            .accessibility-grid {
+                grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+                gap: 1.5rem;
+            }
+            
+            .tools-grid {
+                grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+            }
+            
+            .about-content {
+                grid-template-columns: 1fr;
+                gap: 2rem;
+                text-align: center;
+            }
+            
+            .about-stats {
+                justify-content: center;
+                gap: 1.5rem;
+            }
+        }
+
+        /* Tablet Portrait (768px and up) */
+        @media (min-width: 768px) {
+            .container {
+                padding: 0 2rem;
+            }
+            
+            .nav-container {
+                padding: 0 2rem;
+            }
+            
+            .nav-links {
+                display: flex;
+                gap: 1.5rem;
+            }
+            
+            .mobile-menu-toggle {
+                display: none;
+            }
+            
+            .hero {
+                padding: 8rem 2rem 4rem;
+            }
+            
+            .hero-title {
+                font-size: 3rem;
+            }
+            
+            .hero-description {
+                font-size: 1.2rem;
+                max-width: 700px;
+            }
+            
+            .section-header h2 {
+                font-size: 2.2rem;
+            }
+            
+            .subjects-grid {
+                grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+                gap: 2rem;
+            }
+            
+            .features-grid {
+                grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+                gap: 2rem;
+            }
+            
+            .accessibility-grid {
+                grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+                gap: 2rem;
+            }
+            
+            .tools-grid {
+                grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+                gap: 1.5rem;
+            }
+            
+            .about-content {
+                grid-template-columns: 1fr 1fr;
+                gap: 3rem;
+                text-align: left;
+            }
+            
+            .about-stats {
+                justify-content: flex-start;
+                gap: 2rem;
+            }
+            
+            .quick-stats {
+                right: 2rem;
+                top: 100px;
+            }
+            
+            .stat-card {
+                min-width: 200px;
+                padding: 1rem;
+            }
+            
+            .footer-links {
+                flex-direction: row;
+                gap: 2rem;
+            }
+        }
+
+        /* Tablet Landscape (1024px and up) */
+        @media (min-width: 1024px) {
+            .hero-title {
+                font-size: 3.2rem;
+            }
+            
+            .section-header h2 {
+                font-size: 2.4rem;
+            }
+            
+            .subjects-grid {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 2rem;
+            }
+            
+            .features-grid {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 2rem;
+            }
+            
+            .accessibility-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 2rem;
+            }
+            
+            .tools-grid {
+                grid-template-columns: repeat(4, 1fr);
+                gap: 1.5rem;
+            }
+            
+            .about-content {
+                gap: 4rem;
+            }
+            
+            .nav-links {
+                gap: 2rem;
+            }
+            
+            .floating-cards {
+                display: block;
+            }
+            
+            .floating-card {
+                display: block;
+            }
+        }
+
+        /* Desktop (1200px and up) */
+        @media (min-width: 1200px) {
+            .container {
+                max-width: 1200px;
+                margin: 0 auto;
+            }
+            
+            .hero-title {
+                font-size: 3.5rem;
+            }
+            
+            .section-header h2 {
+                font-size: 2.5rem;
+            }
+            
+            .subjects-grid,
+            .features-grid {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 2.5rem;
+            }
+            
+            .accessibility-grid {
+                grid-template-columns: repeat(3, 1fr);
+                gap: 2rem;
+            }
+            
+            .tools-grid {
+                grid-template-columns: repeat(4, 1fr);
+                gap: 1.5rem;
+            }
+        }
+
+        /* Large Desktop (1440px and up) */
+        @media (min-width: 1440px) {
+            .hero-title {
+                font-size: 4rem;
+            }
+            
+            .section-header h2 {
+                font-size: 2.8rem;
+            }
+            
+            .subjects-grid,
+            .features-grid,
+            .accessibility-grid {
+                gap: 3rem;
+            }
+            
+            .tools-grid {
+                gap: 2rem;
+            }
+        }
+
+        /* Ultra-wide Desktop (1920px and up) */
+        @media (min-width: 1920px) {
+            .container {
+                max-width: 1400px;
+            }
+            
+            .hero-title {
+                font-size: 4.5rem;
+            }
+            
+            .section-header h2 {
+                font-size: 3rem;
+            }
+        }
+
+        /* High DPI / Retina Display Adjustments */
+        @media (-webkit-min-device-pixel-ratio: 2), (min-resolution: 192dpi) {
+            .logo-icon,
+            .subject-icon,
+            .feature-icon,
+            .uliks-avatar {
+                image-rendering: -webkit-optimize-contrast;
+                image-rendering: crisp-edges;
+            }
+        }
+
+        /* Landscape Orientation Adjustments */
+        @media (orientation: landscape) and (max-height: 600px) {
+            .hero {
+                padding: 5rem 2rem 3rem;
+            }
+            
+            .hero-title {
+                font-size: 2.5rem;
+            }
+            
+            .section-header h2 {
+                font-size: 2rem;
+            }
+            
+            .quick-stats {
+                top: 80px;
+            }
+        }
+
+        /* Portrait Orientation Adjustments */
+        @media (orientation: portrait) and (max-width: 768px) {
+            .hero {
+                padding: 7rem 1.5rem 4rem;
+            }
+            
+            .floating-cards {
+                display: none;
+            }
+            
+            .about-visual {
+                margin-top: 2rem;
+            }
+        }
+
+        /* Accessibility: Reduced Motion */
+        @media (prefers-reduced-motion: reduce) {
+            * {
+                animation-duration: 0.01ms !important;
+                animation-iteration-count: 1 !important;
+                transition-duration: 0.01ms !important;
+            }
+            
+            .floating-shape,
+            .floating-card,
+            body::before,
+            body::after {
+                animation: none !important;
+            }
+        }
+
+        /* Accessibility: High Contrast */
+        @media (prefers-contrast: high) {
+            :root {
+                --bg-primary: #000000;
+                --text-primary: #ffffff;
+                --accent-color: #ffff00;
+                --card-bg: #333333;
+            }
+            
+            .subject-card,
+            .feature-card,
+            .accessibility-card,
+            .tool-card {
+                border: 2px solid #ffffff;
+            }
+        }
+
+        /* Print Styles */
+        @media print {
+            .navbar,
+            .quick-stats,
+            .accessibility-toolbar,
+            .accessibility-toolbar-toggle,
+            .floating-shape,
+            .floating-cards,
+            .uliks-modal {
+                display: none !important;
+            }
+            
+            body {
+                background: white !important;
+                color: black !important;
+            }
+            
+            .hero,
+            .subjects,
+            .features,
+            .accessibility-features,
+            .learning-tools,
+            .about {
+                page-break-inside: avoid;
+            }
+        }
+
+/* Adding subtle blur effects on section boundaries */
+.hero-section::after,
+.subjects-section::after,
+.features-section::after,
+.accessibility-section::after,
+.tools-section::after,
+.about-section::after {
+    content: '';
+    position: absolute;
+    bottom: -20px;
+    left: 0;
+    right: 0;
+    height: 40px;
+    background: linear-gradient(to bottom, 
+        rgba(140, 122, 203, 0.1) 0%,
+        rgba(140, 122, 203, 0.05) 50%,
+        transparent 100%);
+    filter: blur(8px);
+    pointer-events: none;
+    z-index: 1;
+}
+
+.hero-section,
+.subjects-section,
+.features-section,
+.accessibility-section,
+.tools-section,
+.about-section {
+    position: relative;
+}
+</style>
+</head>
+
+<body>
+<!-- Added floating shapes for animated background -->
+<div class="floating-shape"></div>
+<div class="floating-shape"></div>
+<div class="floating-shape"></div>
+
+<!-- Quick stats cards for personalized dashboard -->
+<div class="quick-stats">
+    <div class="stat-card">
+        <div class="stat-number">47</div>
+        <div class="stat-label">Mësime të Përfunduara</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-number">12h</div>
+        <div class="stat-label">Kohë Studimi Sot</div>
+    </div>
+    <div class="stat-card">
+        <div class="stat-number">85%</div>
+        <div class="stat-label">Progres i Përgjithshëm</div>
+    </div>
+</div>
+
+<!-- Reading Progress -->
+<div class="reading-progress-container" role="progressbar" aria-label="Progresi i leximit të faqes">
+    <div class="reading-progress-bar"></div>
+</div>
+
+<!-- Accessibility Toolbar -->
+<button class="accessibility-toolbar-toggle" onclick="toggleAccessibilityToolbar()" aria-label="Hap panelin e aksesueshmërisë">
+    ♿
+</button>
+
+<div class="accessibility-toolbar" id="accessibilityToolbar" role="dialog" aria-label="Paneli i aksesueshmërisë">
+    <div class="toolbar-content">
+        <div class="toolbar-section">
+            <h3>Madhësia e Tekstit</h3>
+            <button class="toolbar-button" onclick="setFontSize('normal')" data-font-size="normal">Normal</button>
+            <button class="toolbar-button" onclick="setFontSize('large')" data-font-size="large">I madh</button>
+            <button class="toolbar-button active" onclick="setFontSize('extra-large')" data-font-size="extra-large">Shumë i madh</button>
+        </div>
+
+        <div class="toolbar-section">
+            <h3>Kontrasti</h3>
+            <button class="toolbar-button" onclick="toggleHighContrast()" id="contrastToggle">Kontrast i lartë</button>
+        </div>
+
+        <div class="toolbar-section">
+            <h3>Lexuesi i Ekranit</h3>
+            <button class="toolbar-button" onclick="toggleScreenReader()" id="screenReaderToggle">Aktivizo lexuesin</button>
+            <button class="toolbar-button" onclick="readCurrentSection()">Lexo seksionin</button>
+            <button class="toolbar-button" onclick="stopReading()">Ndalo leximin</button>
+        </div>
+
+        <div class="toolbar-section">
+            <h3>Navigimi</h3>
+            <button class="toolbar-button" onclick="enableKeyboardNavigation()">Navigim me tastierë</button>
+            <button class="toolbar-button" onclick="showKeyboardShortcuts()">Shkurtesa tastiere</button>
+        </div>
+
+        <div class="toolbar-section">
+            <h3>Audio</h3>
+            <button class="toolbar-button" onclick="toggleAudioDescriptions()">Përshkrime audio</button>
+            <button class="toolbar-button" onclick="adjustAudioSpeed()">Shpejtësia e audio</button>
+        </div>
+    </div>
+</div>
+
+<!-- Navigation -->
+<nav class="navbar" role="navigation" aria-label="Navigimi kryesor">
+    <div class="nav-container">
+        <a href="#home" class="logo">
+            <div class="logo-icon" aria-hidden="true">
+                📚
+            </div>
+            Jehonë
+        </a>
+        
+        <ul class="nav-links">
+            <li><a href="#home">Kryefaqja</a></li>
+            <li><a href="#subjects">Lëndët</a></li>
+            <li><a href="#accessibility">Aksesueshmëria</a></li>
+            <li><a href="#tools">Mjetet</a></li>
+            <li><a href="#about">Rreth Nesh</a></li>
+        </ul>
+
+        <div class="nav-actions">
+            <button class="theme-toggle" onclick="toggleTheme()" aria-label="Ndrysho temën">
+                <span class="theme-icon" aria-hidden="true">🌙</span>
+            </button>
+            <div class="user-profile">
+                U
+            </div>
+        </div>
+    </div>
+</nav>
+
+<!-- Hero Section -->
+<section class="hero hero-section">
+    <div class="hero-container">
+        <div class="hero-badge">
+            <span class="hero-badge-icon" aria-hidden="true">✨</span>
+            <span class="hero-badge-text">Platforma më e avancuar edukative për studentët me aftësi të kufizuara pamore</span>
+        </div>
+        
+        <h1 class="hero-title">
+            Mëso me <span class="gradient-text">Zërin Tënd</span>
+            <br>në Gjuhën Shqipe
+        </h1>
+        
+        <p class="hero-description">
+            Jehonë është platforma e parë edukative që përdor teknologjinë e njohjes së zërit 
+            për të krijuar një përvojë mësimi krejtësisht të re dhe interaktive për studentët me aftësi të kufizuara pamore.
+        </p>
+
+        <div class="hero-actions">
+            <button class="cta-primary" onclick="scrollToSubjects()" aria-label="Fillo mësimin">
+                <span>Fillo Mësimin</span>
+                <svg width="20" height="20" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+                    <path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                </svg>
+            </button>
+        </div>
+    </div>
+
+    <div class="floating-cards" aria-hidden="true">
+        <div class="floating-card">
+            <div class="card-icon">🧬</div>
+            <div>
+                <h4 class="card-title">Biologji</h4>
+                <p class="card-description">Shkenca e jetës</p>
+            </div>
+        </div>
+        <div class="floating-card">
+            <div class="card-icon">🌍</div>
+            <div>
+                <h4 class="card-title">Gjeografi</h4>
+                <p class="card-description">Studimi i tokës</p>
+            </div>
+        </div>
+        <div class="floating-card">
+            <div class="card-icon">📖</div>
+            <div>
+                <h4 class="card-title">Letërsi</h4>
+                <p class="card-description">Arti i fjalës</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Subjects Section -->
+<section class="subjects subjects-section">
+    <div class="subjects-container">
+        <h2 class="section-title">Lëndët Tona</h2>
+        <p class="section-description">Zgjedh lëndën që dëshiron të mësosh</p>
+
+        <div class="subjects-grid">
+            <div class="subject-card">
+                <div class="subject-icon">🧬</div>
+                <h3 class="subject-title">Biologji</h3>
+                <p class="subject-description">Shkenca e jetës dhe organizmave të gjallë</p>
+                <button class="subject-button">Fillo Mësimin</button>
+            </div>
+
+            <div class="subject-card">
+                <div class="subject-icon">🌍</div>
+                <h3 class="subject-title">Gjeografi</h3>
+                <p class="subject-description">Gjeografia fizike dhe njerëzore e botës</p>
+                <button class="subject-button">Fillo Mësimin</button>
+            </div>
+
+            <div class="subject-card">
+                <div class="subject-icon">📖</div>
+                <h3 class="subject-title">Letërsi</h3>
+                <p class="subject-description">Letërsia shqipe dhe botërore</p>
+                <button class="subject-button">Fillo Mësimin</button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Features Section -->
+<section class="features features-section">
+    <div class="container">
+        <div class="section-header">
+            <h2>Përse Jehonë?</h2>
+            <p>Teknologji e avancuar për një përvojë mësimi të aksesueshme dhe të jashtëzakonshme</p>
+        </div>
+
+        <div class="features-grid">
+            <div class="feature-card">
+                <div class="feature-icon" aria-hidden="true">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
+                        <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z" fill="currentColor"/>
+                        <path d="M19 10v2a7 7 0 0 1-14 0v-2M12 19v4M8 23h8" stroke="currentColor" stroke-width="2" stroke-linecap="round"/>
+                    </svg>
+                </div>
+                <h3>Njohja e Zërit</h3>
+                <p>Kontrollo platformën me komanda zanore në gjuhën shqipe, pa nevojën e përdorimit të tastierës apo mausit</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon" aria-hidden="true">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
+                        <path d="M9 18V5l12-2v13M9 18l-7-1V6l7 1v11zM9 9l12-2" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/>
+                    </svg>
+                </div>
+                <h3>Audio Mësimet</h3>
+                <p>Dëgjo mësimet me cilësi të lartë dhe mëso në mënyrë auditive, të përshtatura për studentët me aftësi të kufizuara pamore</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon" aria-hidden="true">
+                    <svg width="32" height="32" viewBox="0 0 24 24" fill="none">
+                        <rect x="2" y="3" width="20" height="14" rx="2" ry="2" stroke="currentColor" stroke-width="2"/>
+                        <line x1="8" y1="21" x2="16" y2="21" stroke="currentColor" stroke-width="2"/>
+                        <line x1="12" y1="17" x2="12" y2="21" stroke="currentColor" stroke-width="2"/>
+                    </svg>
+                </div>
+                <h3>Përmbajtje e Pasur</h3>
+                <p>Qindra orë mësimi për të gjitha lëndët kryesore të shkollës së mesme, të strukturuara për të qenë plotësisht të aksesueshme</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon" aria-hidden="true">🎯</div>
+                <h3>Mësim i Personalizuar</h3>
+                <p>Algoritme të avancuara që përshtaten me stilin dhe shpejtësinë tënde të mësimit për rezultate optimale</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon" aria-hidden="true">♿</div>
+                <h3>Aksesueshmëri e Plotë</h3>
+                <p>Dizajnuar nga fillimi për studentët me aftësi të kufizuara pamore, me mbështetje për lexuesit e ekranit dhe navigim me tastierë</p>
+            </div>
+
+            <div class="feature-card">
+                <div class="feature-icon" aria-hidden="true">📱</div>
+                <h3>Mbështetje për Teknologji Ndihmëse</h3>
+                <p>Kompatibilitet i plotë me:</p>
+                <ul>
+                    <li>NVDA, JAWS, VoiceOver</li>
+                    <li>Dragon NaturallySpeaking</li>
+                    <li>Ekrane Braille</li>
+                    <li>Switch navigation</li>
+                    <li>Eye tracking devices</li>
+                </ul>
+                <button class="subject-btn" onclick="testAssistiveTech()" style="margin-top: 1rem;">Testo Kompatibilitetin</button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Accessibility Features Section -->
+<section id="accessibility" class="accessibility-features accessibility-section">
+    <div class="container">
+        <div class="section-header">
+            <h2>Veçori Aksesueshmërie</h2>
+            <p>Jehonë është dizajnuar për të qenë plotësisht e aksesueshme për studentët me aftësi të kufizuara pamore</p>
+        </div>
+
+        <div class="accessibility-grid">
+            <div class="accessibility-card">
+                <div class="accessibility-icon" aria-hidden="true">🔊</div>
+                <h3>Lexues Ekrani i Integruar</h3>
+                <p>Platforma jonë përfshin një lexues ekrani të integruar që lexon me zë të lartë të gjithë përmbajtjen e faqes, duke përfshirë:</p>
+                <ul>
+                    <li>Titujt dhe nëntitujt</li>
+                    <li>Përmbajtjen e tekstit</li>
+                    <li>Përshkrimet e imazheve</li>
+                    <li>Njoftimet e sistemit</li>
+                    <li>Progresin e mësimit</li>
+                </ul>
+                <button class="subject-btn" onclick="toggleScreenReader()" style="margin-top: 1rem;">Aktivizo Lexuesin</button>
+            </div>
+
+            <div class="accessibility-card">
+                <div class="accessibility-icon" aria-hidden="true">⌨️</div>
+                <h3>Navigim me Tastierë</h3>
+                <p>Të gjitha funksionet e platformës mund të përdoren vetëm me tastierë, pa nevojën e mausit:</p>
+                <ul>
+                    <li>Tab - Lëviz midis elementeve</li>
+                    <li>Enter/Space - Aktivizo butonat</li>
+                    <li>Ctrl+H - Shko te kryefaqja</li>
+                    <li>Ctrl+S - Shko te lëndët</li>
+                    <li>Ctrl+A - Shko te aksesueshmëria</li>
+                    <li>Ctrl+R - Lexo seksionin aktual</li>
+                    <li>Esc - Ndalo leximin</li>
+                </ul>
+                <button class="subject-btn" onclick="showKeyboardShortcuts()" style="margin-top: 1rem;">Shfaq të Gjitha Shkurtesat</button>
+            </div>
+
+            <div class="accessibility-card">
+                <div class="accessibility-icon" aria-hidden="true">🎨</div>
+                <h3>Opsione Vizuale të Përshtatura</h3>
+                <p>Për studentët me shikim të pjesshëm, ofrojmë:</p>
+                <ul>
+                    <li>Modaliteti me kontrast të lartë</li>
+                    <li>Opsione për zmadhimin e tekstit (Normal, I madh, Shumë i madh)</li>
+                    <li>Tema e errët për reduktimin e lodhjes së syve</li>
+                    <li>Ngjyra të përshtatura për daltonizmin</li>
+                </ul>
+                <button class="subject-btn" onclick="toggleHighContrast()" style="margin-top: 1rem;">Aktivizo Kontrastin e Lartë</button>
+            </div>
+
+            <div class="accessibility-card">
+                <div class="accessibility-icon" aria-hidden="true">🎵</div>
+                <h3>Kontrolle Audio të Avancuara</h3>
+                <p>Sistemi ynë i audio ofron:</p>
+                <ul>
+                    <li>Kontroll i shpejtësisë së leximit (0.5x - 2x)</li>
+                    <li>Pauzë dhe vazhdim me komanda zanore</li>
+                    <li>Kapërcim në paragrafin tjetër</li>
+                    <li>Përsëritje e seksioneve të caktuara</li>
+                    <li>Bookmark audio për të ruajtur pozicionin</li>
+                </ul>
+                <button class="subject-btn" onclick="showAudioControls()" style="margin-top: 1rem;">Shfaq Kontrollet Audio</button>
+            </div>
+
+            <div class="accessibility-card">
+                <div class="accessibility-icon" aria-hidden="true">🧭</div>
+                <h3>Navigim i Strukturuar</h3>
+                <p>Navigim i lehtë dhe i organizuar:</p>
+                <ul>
+                    <li>Meny e strukturuar me nivele të qarta</li>
+                    <li>Breadcrumb navigation për orientim</li>
+                    <li>Skip links për kalim të shpejtë</li>
+                    <li>Landmark regions për lexuesit e ekranit</li>
+                    <li>Fokus i dukshëm për çdo element</li>
+                </ul>
+                <button class="subject-btn" onclick="enableNavigationHelp()" style="margin-top: 1rem;">Aktivizo Ndihmën e Navigimit</button>
+            </div>
+
+            <div class="accessibility-card">
+                <div class="accessibility-icon" aria-hidden="true">📱</div>
+                <h3>Mbështetje për Teknologji Ndihmëse</h3>
+                <p>Kompatibilitet i plotë me:</p>
+                <ul>
+                    <li>NVDA, JAWS, VoiceOver</li>
+                    <li>Dragon NaturallySpeaking</li>
+                    <li>Ekrane Braille</li>
+                    <li>Switch navigation</li>
+                    <li>Eye tracking devices</li>
+                </ul>
+                <button class="subject-btn" onclick="testAssistiveTech()" style="margin-top: 1rem;">Testo Kompatibilitetin</button>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Learning Tools Section -->
+<section id="tools" class="learning-tools tools-section">
+    <div class="container">
+        <div class="section-header">
+            <h2>Mjetet e Mësimit</h2>
+            <p>Mjete të specializuara për të përmirësuar përvojën tuaj të mësimit</p>
+        </div>
+
+        <div class="tools-grid">
+            <div class="tool-card" onclick="openNoteTaker()">
+                <div class="tool-icon" aria-hidden="true">📝</div>
+                <h4>Shënues Audio</h4>
+                <p>Regjistro shënime me zë gjatë mësimit</p>
+            </div>
+
+            <div class="tool-card" onclick="openQuizMode()">
+                <div class="tool-icon" aria-hidden="true">❓</div>
+                <h4>Kuize Audio</h4>
+                <p>Testo njohuritë me kuize interaktive</p>
+            </div>
+
+            <div class="tool-card" onclick="openProgressTracker()">
+                <div class="tool-icon" aria-hidden="true">📊</div>
+                <h4>Ndjekja e Progresit</h4>
+                <p>Monitoroni përparimin tuaj në mësim</p>
+            </div>
+
+            <div class="tool-card" onclick="openStudyPlanner()">
+                <div class="tool-icon" aria-hidden="true">📅</div>
+                <h4>Planifikuesi i Studimit</h4>
+                <p>Organizoni orarin tuaj të mësimit</p>
+            </div>
+
+            <div class="tool-card" onclick="openDictionary()">
+                <div class="tool-icon" aria-hidden="true">📚</div>
+                <h4>Fjalor Audio</h4>
+                <p>Kërko dhe dëgjo shpjegimet e fjalëve</p>
+            </div>
+
+            <div class="tool-card" onclick="openBookmarks()">
+                <div class="tool-icon" aria-hidden="true">🔖</div>
+                <h4>Bookmark</h4>
+                <p>Ruaj vendet e rëndësishme në mësime</p>
+            </div>
+
+            <div class="tool-card" onclick="openCalculator()">
+                <div class="tool-icon" aria-hidden="true">🧮</div>
+                <h4>Kalkulator Audio</h4>
+                <p>Kalkulator me komanda zanore</p>
+            </div>
+
+            <div class="tool-card" onclick="openStudyGroups()">
+                <div class="tool-icon" aria-hidden="true">👥</div>
+                <h4>Grupe Studimi</h4>
+                <p>Bashkohu me studentë të tjerë</p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- About Section -->
+<section id="about" class="about about-section">
+    <div class="container">
+        <div class="about-content">
+            <div class="about-text">
+                <h2>Rreth Jehonë</h2>
+                <p class="about-lead">
+                    Jehonë është një platformë inovative që kombinon teknologjinë e njohjes së zërit 
+                    me përmbajtje edukative cilësore për të krijuar një përvojë mësimi unike për studentët me aftësi të kufizuara pamore.
+                </p>
+                <p>
+                    Ne besojmë se çdo student meriton qasje në arsim cilësor dhe interaktiv, pavarësisht aftësive të tyre. 
+                    Platforma jonë është dizajnuar për të bërë mësimin më të aksesueshëm, 
+                    më angazhues dhe më efikas për të gjithë.
+                </p>
+                
+                <div class="about-stats">
+                    <div class="stat">
+                        <div class="stat-number">2500+</div>
+                        <div class="stat-label">Studentë Aktivë</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-number">150+</div>
+                        <div class="stat-label">Orë Përmbajtje</div>
+                    </div>
+                    <div class="stat">
+                        <div class="stat-number">6</div>
+                        <div class="stat-label">Lëndë Kryesore</div>
+                    </div>
+                </div>
+            </div>
+
+            <div class="about-visual" aria-hidden="true">
+                <div class="about-card">
+                    <div class="card-header">
+                        <div class="card-dots">
+                            <span></span>
+                            <span></span>
+                            <span></span>
+                        </div>
+                    </div>
+                    <div class="card-content">
+                        <div class="demo-line active"></div>
+                        <div class="demo-line"></div>
+                        <div class="demo-line short"></div>
+                        <div class="demo-voice">
+                            <span class="voice-indicator">🎤</span>
+                            <span>"Dua të mësoj biologji"</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Footer -->
+<footer class="footer">
+    <div class="container">
+        <div class="footer-content">
+            <div class="footer-brand">
+                <div class="brand-icon" aria-hidden="true">📚</div>
+                <span class="brand-text">Jehonë</span>
+            </div>
+            <p>Platforma më e avancuar edukative në gjuhën shqipe për studentët me aftësi të kufizuara pamore</p>
+            
+            <div class="footer-links">
+                <a href="#" class="footer-link">Aksesueshmëria</a>
+                <a href="#" class="footer-link">Kontakti</a>
+                <a href="#" class="footer-link">Ndihma</a>
+                <a href="#" class="footer-link">Privatësia</a>
+                <a href="#" class="footer-link">Kushtet e Përdorimit</a>
+                <a href="#" class="footer-link">Feedback</a>
+            </div>
+        </div>
+        <div class="footer-bottom">
+            <p>&copy; 2024 Jehonë. Të gjitha të drejtat e rezervuara. Krijuar me dashuri për arsimin e aksesueshëm.</p>
+        </div>
+    </div>
+</footer>
+
+<!-- Redesigned Uliks modal as modern chatbot interface -->
+<div class="uliks-overlay" id="uliksOverlay"></div>
+<div class="uliks-modal" id="uliksModal">
+    <div class="uliks-header">
+        <div class="uliks-brand">
+            <div class="uliks-avatar">🎤</div>
+            <div class="uliks-info">
+                <h3>Uliks</h3>
+                <p>Asistenti Juaj AI</p>
+            </div>
+        </div>
+        <button class="uliks-close" onclick="window.uliks?.hideUliksModal()" aria-label="Mbyll Uliks">×</button>
+    </div>
+    <div class="chat-area">
+        <div class="chat-message ai">
+            <div class="message-avatar ai">🎤</div>
+            <div class="message-bubble ai">
+                Përshëndetje! Unë jam Uliks, asistenti juaj AI. Si mund t'ju ndihmoj sot?
+            </div>
+        </div>
+    </div>
+    <div class="voice-input-area">
+        <div class="voice-status">
+            <p class="uliks-status" id="uliksStatus">Po dëgjoj...</p>
+        </div>
+        <div class="waveform-container">
+            <canvas id="waveformCanvas" width="320" height="60"></canvas>
+        </div>
+        <div class="command-chips">
+            <div class="command-chip">🧬 Biologji</div>
+            <div class="command-chip">🌍 Gjeografi</div>
+            <div class="command-chip">📚 Letërsi</div>
+            <div class="command-chip">❓ Ndihmë</div>
+        </div>
+    </div>
+</div>
+
+</body>
+<script src="index.js" type="module"></script>
+<script src="auth.js" type="module"></script>
+<script src="index3.js" type="module"></script>
+<!-- Add initialization check and debugging -->
+<script>
+console.log("[v0] Page loaded, checking Uliks initialization...");
+window.addEventListener('load', () => {
+  setTimeout(() => {
+    if (window.uliks) {
+      console.log("[v0] Uliks successfully initialized!");
+    } else {
+      console.log("[v0] Uliks failed to initialize - check console for errors");
+    }
+  }, 2000);
+});
+</script>
+<script>
+function toggleTheme() {
+    const body = document.body;
+    const themeIcon = document.querySelector('.theme-icon');
+    
+    if (body.getAttribute('data-theme') === 'dark') {
+        body.removeAttribute('data-theme');
+        themeIcon.textContent = '🌙';
+        localStorage.setItem('theme', 'light');
+    } else {
+        body.setAttribute('data-theme', 'dark');
+        themeIcon.textContent = '☀️';
+        localStorage.setItem('theme', 'dark');
+    }
+}
+
+document.addEventListener('DOMContentLoaded', function() {
+    const savedTheme = localStorage.getItem('theme');
+    const themeIcon = document.querySelector('.theme-icon');
+    
+    if (savedTheme === 'dark') {
+        document.body.setAttribute('data-theme', 'dark');
+        themeIcon.textContent = '☀️';
+    }
+    
+    const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    };
+    
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.style.animation = 'slideInRight 0.5s ease forwards';
+            }
+        });
+    }, observerOptions);
+    
+    document.querySelectorAll('.stat-card').forEach(card => {
+        observer.observe(card);
+    });
+});
+
+</script>
+</html>

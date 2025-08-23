@@ -1,0 +1,122 @@
+/* Klasa Page Styles */
+.klasa-section {
+  padding: 120px 0 60px;
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+}
+
+.klasa-header {
+  text-align: center;
+  margin-bottom: 4rem;
+}
+
+.klasa-title {
+  max-width: 500px;
+  height: auto;
+  margin: 0 auto 2rem;
+}
+
+.klasa-subtitle {
+  font-size: 1.2rem;
+  color: var(--text-secondary);
+  max-width: 600px;
+  margin: 0 auto;
+}
+
+.klasa-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+  margin-bottom: 4rem;
+}
+
+.klasa-card {
+  background: var(--surface);
+  border-radius: 1.5rem;
+  padding: 2.5rem;
+  text-decoration: none;
+  color: var(--text-primary);
+  transition: all 0.3s ease;
+  border: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  position: relative;
+  overflow: hidden;
+}
+
+.klasa-card::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 4px;
+  background: var(--gradient-primary);
+  transform: scaleX(0);
+  transition: transform 0.3s ease;
+}
+
+.klasa-card:hover::before {
+  transform: scaleX(1);
+}
+
+.klasa-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 20px 40px var(--shadow);
+  background: var(--background);
+}
+
+.klasa-image {
+  margin-bottom: 2rem;
+}
+
+.klasa-image img {
+  width: 150px;
+  height: 100px;
+  object-fit: contain;
+}
+
+.klasa-info h3 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: var(--text-primary);
+}
+
+.klasa-info p {
+  color: var(--text-secondary);
+  margin-bottom: 1.5rem;
+}
+
+.klasa-number {
+  position: absolute;
+  top: 1rem;
+  right: 1rem;
+  background: var(--primary-color);
+  color: white;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 1.1rem;
+}
+
+.assistant-container {
+  text-align: center;
+}
+
+@media (max-width: 768px) {
+  .klasa-title {
+    max-width: 300px;
+  }
+
+  .klasa-grid {
+    grid-template-columns: 1fr;
+  }
+}

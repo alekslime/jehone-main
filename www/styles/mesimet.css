@@ -1,0 +1,143 @@
+/* Mesimet Page Styles */
+.mesimet-header {
+  padding: 120px 0 60px;
+  background: linear-gradient(135deg, var(--primary-color) 0%, var(--secondary-color) 100%);
+  color: white;
+  text-align: center;
+}
+
+.header-content {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2rem;
+}
+
+.header-title {
+  max-width: 500px;
+  height: auto;
+}
+
+.header-subtitle {
+  max-width: 600px;
+  height: auto;
+}
+
+.voice-control {
+  background: rgba(255, 255, 255, 0.1);
+  backdrop-filter: blur(10px);
+  border-radius: 1rem;
+  padding: 2rem;
+  max-width: 400px;
+  width: 100%;
+}
+
+.voice-btn {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  background: rgba(255, 255, 255, 0.2);
+  border: none;
+  color: white;
+  padding: 1rem 2rem;
+  border-radius: 2rem;
+  cursor: pointer;
+  font-weight: 600;
+  transition: all 0.3s ease;
+  width: 100%;
+  justify-content: center;
+}
+
+.voice-btn:hover {
+  background: rgba(255, 255, 255, 0.3);
+  transform: translateY(-2px);
+}
+
+.voice-output {
+  margin-top: 1rem;
+  padding: 1rem;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 0.5rem;
+  font-size: 0.9rem;
+  text-align: center;
+}
+
+.subjects-section {
+  padding: 4rem 0;
+}
+
+.subjects-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 2rem;
+}
+
+.subject-card {
+  background: var(--surface);
+  border-radius: 1rem;
+  padding: 2rem;
+  text-decoration: none;
+  color: var(--text-primary);
+  transition: all 0.3s ease;
+  border: 1px solid var(--border);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+}
+
+.subject-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 20px 40px var(--shadow);
+  background: var(--background);
+}
+
+.subject-image {
+  margin-bottom: 1.5rem;
+}
+
+.subject-image img {
+  width: 120px;
+  height: 80px;
+  object-fit: contain;
+}
+
+.subject-info h3 {
+  font-size: 1.5rem;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: var(--text-primary);
+}
+
+.subject-info p {
+  color: var(--text-secondary);
+  margin-bottom: 1rem;
+}
+
+.subject-badge {
+  background: var(--primary-color);
+  color: white;
+  padding: 0.25rem 0.75rem;
+  border-radius: 1rem;
+  font-size: 0.8rem;
+  font-weight: 500;
+}
+
+.assistant-section {
+  padding: 3rem 0;
+  text-align: center;
+}
+
+@media (max-width: 768px) {
+  .header-title {
+    max-width: 300px;
+  }
+
+  .header-subtitle {
+    max-width: 350px;
+  }
+
+  .subjects-grid {
+    grid-template-columns: 1fr;
+  }
+}

@@ -1,0 +1,134 @@
+.voice-selector {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  padding: 1.5rem;
+  margin: 1rem 0;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+}
+
+.voice-controls h4 {
+  margin: 0 0 1rem 0;
+  color: var(--primary);
+  font-size: 1.1rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.voice-option {
+  display: flex;
+  align-items: center;
+  gap: 1rem;
+  margin: 1rem 0;
+  flex-wrap: wrap;
+}
+
+.voice-option label {
+  min-width: 80px;
+  font-weight: 500;
+  color: var(--text-primary);
+}
+
+.voice-option select {
+  flex: 1;
+  min-width: 200px;
+  padding: 0.5rem;
+  border: 1px solid var(--border);
+  border-radius: 6px;
+  background: var(--background);
+  color: var(--text-primary);
+  font-size: 0.9rem;
+}
+
+.voice-option input[type="range"] {
+  flex: 1;
+  min-width: 120px;
+  margin: 0 0.5rem;
+}
+
+.preview-btn,
+.voice-toggle {
+  padding: 0.5rem 1rem;
+  border: 1px solid var(--primary);
+  border-radius: 6px;
+  background: var(--primary);
+  color: white;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: all 0.3s ease;
+}
+
+.preview-btn:hover,
+.voice-toggle:hover {
+  background: var(--primary-dark);
+  transform: translateY(-1px);
+}
+
+.voice-toggle {
+  width: 100%;
+  margin-top: 1rem;
+  padding: 0.75rem;
+  font-weight: 500;
+}
+
+/* Voice quality indicators */
+optgroup[label*="Premium"] {
+  background: linear-gradient(135deg, #ffd700, #ffed4e);
+  color: #000;
+  font-weight: bold;
+}
+
+optgroup[label*="Përmirësuar"] {
+  background: linear-gradient(135deg, #60a5fa, #3b82f6);
+  color: #fff;
+}
+
+optgroup[label*="Standardë"] {
+  background: var(--surface);
+  color: var(--text-primary);
+}
+
+/* Responsive design */
+@media (max-width: 768px) {
+  .voice-option {
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0.5rem;
+  }
+
+  .voice-option label {
+    min-width: auto;
+  }
+
+  .voice-option select {
+    min-width: auto;
+  }
+}
+
+/* Dark theme adjustments */
+[data-theme="dark"] .voice-selector {
+  background: var(--surface-dark);
+  border-color: var(--border-dark);
+}
+
+[data-theme="dark"] .voice-option select {
+  background: var(--background-dark);
+  border-color: var(--border-dark);
+  color: var(--text-primary-dark);
+}
+
+/* Animation for voice feedback */
+.voice-speaking {
+  animation: pulse 1.5s infinite;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.7;
+  }
+}

@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="sq">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zgjidhni Klasën - Jehonë</title>
+    <link rel="stylesheet" href="styles/style.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <style>
+        /* Klasa Page Specific Styles */
+        .klasa-section {
+            padding: 120px 0 60px;
+            min-height: 100vh;
+            display: flex;
+            align-items: center;
+        }
+
+        .klasa-header {
+            text-align: center;
+            margin-bottom: 4rem;
+        }
+
+        .klasa-title {
+            max-width: 500px;
+            height: auto;
+            margin: 0 auto 2rem;
+        }
+
+        .klasa-subtitle {
+            font-size: 1.2rem;
+            color: var(--text-secondary);
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        .klasa-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 2rem;
+            margin-bottom: 4rem;
+        }
+
+        .klasa-card {
+            background: var(--surface);
+            border-radius: 1.5rem;
+            padding: 2.5rem;
+            text-decoration: none;
+            color: var(--text-primary);
+            transition: all 0.3s ease;
+            border: 1px solid var(--border);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .klasa-card::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            height: 4px;
+            background: var(--gradient-primary);
+            transform: scaleX(0);
+            transition: transform 0.3s ease;
+        }
+
+        .klasa-card:hover::before {
+            transform: scaleX(1);
+        }
+
+        .klasa-card:hover {
+            transform: translateY(-10px);
+            box-shadow: 0 20px 40px var(--shadow);
+            background: var(--background);
+        }
+
+        .klasa-image {
+            margin-bottom: 2rem;
+        }
+
+        .klasa-image img {
+            width: 150px;
+            height: 100px;
+            object-fit: contain;
+        }
+
+        .klasa-info h3 {
+            font-size: 1.5rem;
+            font-weight: 600;
+            margin-bottom: 0.5rem;
+            color: var(--text-primary);
+        }
+
+        .klasa-info p {
+            color: var(--text-secondary);
+            margin-bottom: 1.5rem;
+        }
+
+        .klasa-number {
+            position: absolute;
+            top: 1rem;
+            right: 1rem;
+            background: var(--primary-color);
+            color: white;
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-weight: 700;
+            font-size: 1.1rem;
+        }
+
+        @media (max-width: 768px) {
+            .klasa-title {
+                max-width: 300px;
+            }
+
+            .klasa-grid {
+                grid-template-columns: 1fr;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation -->
+    <nav class="navbar">
+        <div class="nav-container">
+            <div class="nav-brand">
+                <img src="images/book full copy.png" alt="Jehonë" class="brand-logo">
+                <span class="brand-text">Jehonë</span>
+            </div>
+            <div class="nav-links">
+                <a href="index.html" class="nav-link">
+                    <img src="images/home.png" alt="Kryefaqja">
+                    <span>Kryefaqja</span>
+                </a>
+                <a href="mesimet.html" class="nav-link">
+                    <img src="images/mesimet.png" alt="Mësimet">
+                    <span>Mësimet</span>
+                </a>
+                <a href="about.html" class="nav-link">
+                    <img src="images/about.png" alt="Rreth nesh">
+                    <span>Rreth nesh</span>
+                </a>
+            </div>
+            <button class="theme-toggle" onclick="toggleTheme()">
+                <span class="theme-icon">🌙</span>
+            </button>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <section class="klasa-section">
+        <div class="container">
+            <div class="klasa-header">
+                <img src="images/Cila klasë jeni.png" alt="Cila klasë jeni?" class="klasa-title">
+                <p class="klasa-subtitle">Zgjidhni klasën tuaj për të aksesuar materialet përkatëse</p>
+            </div>
+
+            <div class="klasa-grid">
+                <a href="mesimet.html" class="klasa-card" data-class="10">
+                    <div class="klasa-image">
+                        <img src="images/KLASA X copy2.png" alt="Klasa X">
+                    </div>
+                    <div class="klasa-info">
+                        <h3>Klasa e Dhjetë</h3>
+                        <p>Materialet për klasën e 10-të</p>
+                        <div class="klasa-number">X</div>
+                    </div>
+                </a>
+
+                <a href="mesimet.html" class="klasa-card" data-class="11">
+                    <div class="klasa-image">
+                        <img src="images/KLASA XI copy 2.png" alt="Klasa XI">
+                    </div>
+                    <div class="klasa-info">
+                        <h3>Klasa e Njëmbëdhjetë</h3>
+                        <p>Materialet për klasën e 11-të</p>
+                        <div class="klasa-number">XI</div>
+                    </div>
+                </a>
+
+                <a href="mesimet12.html" class="klasa-card" data-class="12">
+                    <div class="klasa-image">
+                        <img src="images/KLASA XII copy 2.png" alt="Klasa XII">
+                    </div>
+                    <div class="klasa-info">
+                        <h3>Klasa e Dymbëdhjetë</h3>
+                        <p>Materialet për klasën e 12-të</p>
+                        <div class="klasa-number">XII</div>
+                    </div>
+                </a>
+            </div>
+
+            <!-- Assistant -->
+            <div class="assistant-container">
+                <button class="assistant-btn" onclick="playClassAudio()">
+                    <img src="images/book full copy.png" alt="Asistenti" class="assistant-img">
+                    <div class="assistant-pulse"></div>
+                </button>
+                <p class="assistant-label">Asistenti i Klasave</p>
+            </div>
+        </div>
+    </section>
+
+    <script src="main.js"></script>
+    <script>
+        function playClassAudio() {
+            const audio = new Audio("audio/uliksi.mp3")
+            audio.play().catch((e) => console.error("Error playing audio:", e))
+        }
+
+        // Add click animations
+        document.querySelectorAll(".klasa-card").forEach((card) => {
+            card.addEventListener("click", function (e) {
+                this.style.transform = "scale(0.95)"
+                setTimeout(() => {
+                    this.style.transform = ""
+                }, 150)
+            })
+        })
+    </script>
+</body>
+</html>

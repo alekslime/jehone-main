@@ -1,0 +1,246 @@
+<!DOCTYPE html>
+<html lang="sq">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gjeografi - Jehonë</title>
+    <link rel="stylesheet" href="styles/gjeo.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar">
+        <div class="nav-container">
+            <a href="index.html" class="nav-brand">
+                <div class="brand-icon">
+                    <img class="bookuliks" src="images/book_full_copy.png" alt="">
+                </div>
+                <span class="brand-text">Jehonë</span>
+            </a>
+            
+            <button class="hamburger" id="hamburgerToggle" onclick="toggleMobileMenu()">
+                ☰
+            </button>
+
+            <div class="nav-menu">
+                <a href="index.html" class="nav-link">Kryefaqja</a>
+                <a href="index.html#subjects" class="nav-link">Lëndët</a>
+                <a href="index.html#about" class="nav-link">Rreth Nesh</a>
+                <button class="theme-toggle" onclick="toggleTheme()">
+                    <span class="theme-icon">🌙</span>
+                </button>
+                <div class="profile-dropdown">
+                <button id="profileButton" class="profile-button" aria-haspopup="true" aria-expanded="false">
+                    <span id="profileInitial">U</span>
+                </button>
+                <div class="dropdown-menu" id="profileMenu" role="menu">
+                    <button class="dropdown-item" id="goPremium">Go Premium</button>
+                    <button class="dropdown-item" id="logout">Log Out</button>
+                </div>
+            </div>
+        </div>
+    </nav>
+
+    <!-- Subject Header -->
+    <section class="subject-header">
+        <div class="container">
+            <div class="subject-header-content">
+                <span class="subject-icon-large">🌍</span>
+                <button class="hdbtn" onclick="gjeo12()">
+                <h1 class="subject-title">Gjeografi</h1>
+                </button>
+                <p class="subject-description">
+                    Zbulo botën e mahnitshme të shkencës së jetës, nga qelizat më të vogla deri te ekosistemet komplekse
+                </p>
+                
+                <div class="subject-stats">
+                    <div class="stat-item">
+                        <span class="stat-number">12</span>
+                        <span class="stat-label">Kapituj</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">45</span>
+                        <span class="stat-label">Orë Audio</span>
+                    </div>
+                    <div class="stat-item">
+                        <span class="stat-number">150+</span>
+                        <span class="stat-label">Koncepte</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+            
+   <!-- Topics Section -->
+    <section class="topics-section">
+        <div class="container">
+            <div class="section-header">
+                <h2>Kapitujt e Gjeografise</h2>
+                <p>Zgjidhni kapitullin që dëshironi të mësoni</p>
+            </div>
+
+            <div class="topics-grid">
+                <div class="topic-card" data-topic="Hyrje">
+                    <div class="progress-indicator">25%</div>
+                    <div class="topic-header">
+                        <div class="topic-icon">🌍</div>
+                        <div class="topic-info">
+                            <h3>Hyrje</h3>
+                            <span class="topic-duration">2:15</span>
+                        </div>
+                    </div>
+                    <p class="topic-description">
+                        Konceptet bazë të gjeografisë dhe metodat e studimit
+                    </p>
+                    <div class="topic-actions">
+                        <button class="play-btn" onclick="playSound(hyrje)">
+                            <span>▶️</span>
+                            <span>Dëgjo Leksionin</span>
+                        </button>
+                        <button class="bookmark-btn" onclick="toggleBookmark(this)">
+                            <span>🔖</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="topic-card" data-topic="Ecuria">
+                    <div class="topic-header">
+                        <div class="topic-icon">📊</div>
+                        <div class="topic-info">
+                            <h3>Ecuria e përgjithshme e popullsisë</h3>
+                            <span class="topic-duration">3:42</span>
+                        </div>
+                    </div>
+                    <p class="topic-description">
+                        Studimet demografike dhe zhvillimi i popullsisë
+                    </p>
+                    <div class="topic-actions">
+                        <button class="play-btn" onclick="playSound(ecuri)">
+                            <span>▶️</span>
+                            <span>Dëgjo Leksionin</span>
+                        </button>
+                        <button class="bookmark-btn" onclick="toggleBookmark(this)">
+                            <span>🔖</span>
+                        </button>
+                    </div>
+                </div>
+
+                <div class="topic-card" data-topic="Popullsia">
+                    <div class="topic-header">
+                        <div class="topic-icon">🏛️ </div>
+                        <div class="topic-info">
+                            <h3>Popullimi i hershëm i trevave shqiptare</h3>
+                            <span class="topic-duration">2:58</span>
+                        </div>
+                    </div>
+                    <p class="topic-description">
+                        Historia dhe zhvillimi i popullsisë shqiptare
+                    </p>
+                    <div class="topic-actions">
+                        <button class="play-btn" onclick="playSound(popull)">
+                            <span>▶️</span>
+                            <span>Dëgjo Leksionin</span>
+                        </button>
+                        <button class="bookmark-btn" onclick="toggleBookmark(this)">
+                            <span>🔖</span>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Audio Player -->
+<div class="audio-player" id="audioPlayer">
+    <div class="top">
+      <div class="thumb"></div>
+      <div class="title-info">
+        <h4 id="trackTitle"></h4>
+        <span>Gjeografi 12</span>
+      </div>
+      <span class="close-btn" onclick="togglePlayer()">&times;</span>
+    </div>
+
+    <div class="controls">
+      <button onclick="rewind()">⏪</button>
+      <button class="play" onclick="togglePlay()">▶</button>
+      <button onclick="skip()">⏩</button>
+      <div class="volume-container">
+        <span>🔊</span>
+        <input type="range" id="volumeBar" class="volume-bar" min="0" max="1" step="0.01" value="1" onchange="setVolume(this.value)">
+      </div>
+      <span>1x</span>
+    </div>
+
+    <div class="progress-container">
+      <span class="time" id="currentTime">0:00</span>
+      <input type="range" id="progressBar" class="progress-bar" value="0" max="100" onchange="seekAudio(this.value)">
+      <span class="time" id="duration">0:00</span>
+    </div>
+  </div>
+
+
+    <!-- Assistant -->
+    <div class="ai-chatbot" id="aiChatbot">
+        <div class="chatbot-header">
+            <div class="chatbot-avatar">🤖</div>
+            <div class="chatbot-info">
+                <h4>Jehonë AI Asistent</h4>
+                <p class="chatbot-status" id="chatbotStatus">Online</p>
+            </div>
+            <div class="chatbot-controls">
+                <button class="chatbot-voice-btn" onclick="toggleChatVoice()" id="chatVoiceBtn">
+                    <span>🎤</span>
+                </button>
+                <button class="chatbot-minimize" onclick="toggleChatbot()">
+                    <span id="chatbotToggleIcon">−</span>
+                </button>
+            </div>
+        </div>
+        
+        <div class="chatbot-content" id="chatbotContent">
+            <div class="chat-messages" id="chatMessages">
+                <div class="message ai-message">
+                    <div class="message-avatar">🤖</div>
+                    <div class="message-content">
+                        <p>Përshëndetje! Unë jam Jehonë AI, asistenti juaj për gjeografi. Mund të më pyesni çdo gjë rreth mësimeve, koncepteve gjeografike, ose ndihmë me detyrat. Si mund t'ju ndihmoj sot?</p>
+                        <div class="message-actions">
+                            <button class="play-message-btn" onclick="playMessage(this, 'Përshëndetje! Unë jam Jehonë AI, asistenti juaj për gjografi. Mund të më pyesni çdo gjë rreth mësimeve, koncepteve gjeografike, ose ndihmë me detyrat. Si mund t\'ju ndihmoj sot?')">
+                                <span>🔊</span>
+                            </button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="chat-input-container">
+                <div class="chat-input-wrapper">
+                    <input type="text" class="chat-input" id="chatInput" placeholder="Shkruani pyetjen tuaj këtu..." onkeypress="handleChatKeyPress(event)">
+                    <button class="chat-voice-input" onclick="startChatVoiceInput()" id="chatVoiceInput">
+                        <span>🎤</span>
+                    </button>
+                    <button class="chat-send-btn" onclick="sendChatMessage()">
+                        <span>📤</span>
+                    </button>
+                </div>
+                <div class="quick-questions">
+                    <button class="quick-question" onclick="askQuickQuestion('Çfarë është gjeografia')">C'eshte gjeografia??</button>
+                    <button class="quick-question" onclick="askQuickQuestion('Sa eshte popullsia e Shqiperise?')">Sa eshte popullsia e Shqiperise?</button>
+                    <button class="quick-question" onclick="askQuickQuestion('Çfarë është mitoza?')">Si ka qene ecuria e popullsise sone?</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Chatbot Toggle Button -->
+    <button class="chatbot-toggle-btn" onclick="showChatbot()" id="chatbotToggleBtn">
+        <span class="chatbot-icon">🤖</span>
+        <span class="chatbot-notification" id="chatbotNotification">1</span>
+    </button>
+
+    <script src="js/geography.js"></script>
+    <script src="auth.js" type="module"></script>
+    <script src="statusbar.js" type="module"></script>
+</body>
+</html>
