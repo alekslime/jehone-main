@@ -1,0 +1,559 @@
+    <!DOCTYPE html>
+    <html lang="en" data-theme="light">
+    <head>
+      <meta charset="UTF-8">
+      <meta name="viewport" content="width=device-width, initial-scale=1.0">
+      <title>Jehonë - Choose Your Plan</title>
+      <style>
+        :root {
+          --primary-purple: #8c7acb;
+          --secondary-purple: #68489a;
+          --dark-purple: #4f258d;
+          --light-purple: #abb4f9;
+          --accent-purple: #b794f6;
+          --bg-primary: linear-gradient(135deg, #8c7acb 0%, #68489a 50%, #4f258d 100%);
+          --card-bg: rgba(255, 255, 255, 0.1);
+          --border-color: rgba(255, 255, 255, 0.3);
+          --text-primary: #ffffff;
+          --text-secondary: rgba(255, 255, 255, 0.85);
+          --success-color: #4ade80;
+          --warning-color: #fbbf24;
+          --shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+          --shadow-hover: 0 30px 60px rgba(140, 122, 203, 0.3);
+          --blur: blur(20px);
+          --gradient-animated: linear-gradient(45deg, var(--primary-purple), var(--accent-purple), var(--light-purple), var(--primary-purple));
+        }
+
+        [data-theme="dark"] {
+          --bg-primary: linear-gradient(135deg, #2a1f3d 0%, #1a1625 50%, #0f0a1a 100%);
+          --card-bg: rgba(255, 255, 255, 0.05);
+          --border-color: rgba(255, 255, 255, 0.15);
+          --text-primary: #ffffff;
+          --text-secondary: rgba(255, 255, 255, 0.8);
+        }
+
+        * {
+          margin: 0;
+          padding: 0;
+          box-sizing: border-box;
+        }
+
+        body {
+          font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+          background: var(--bg-primary);
+          color: var(--text-primary);
+          min-height: 100vh;
+          overflow-x: hidden;
+        }
+
+        /* Animated Background */
+        body::before {
+          content: '';
+          position: fixed;
+          top: 0;
+          left: 0;
+          width: 100%;
+          height: 100%;
+          background: 
+            radial-gradient(circle at 20% 80%, rgba(140, 122, 203, 0.3) 0%, transparent 50%),
+            radial-gradient(circle at 80% 20%, rgba(171, 180, 249, 0.2) 0%, transparent 50%),
+            radial-gradient(circle at 40% 40%, rgba(104, 72, 154, 0.2) 0%, transparent 50%);
+          animation: floatingBg 20s ease-in-out infinite;
+          z-index: -1;
+        }
+
+        @keyframes floatingBg {
+          0%, 100% { transform: scale(1) rotate(0deg); }
+          50% { transform: scale(1.1) rotate(5deg); }
+        }
+
+        /* Header */
+        .header {
+          position: fixed;
+          top: 0;
+          left: 0;
+          right: 0;
+          padding: 1.2rem 2rem;
+          background: var(--card-bg);
+          backdrop-filter: var(--blur);
+          border-bottom: 1px solid var(--border-color);
+          display: flex;
+          justify-content: space-between;
+          align-items: center;
+          z-index: 1000;
+        }
+
+        .logo {
+          font-size: 1.8rem;
+          font-weight: 800;
+          background: var(--gradient-animated);
+          background-size: 300% 300%;
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          animation: gradientShift 3s ease-in-out infinite;
+        }
+
+        @keyframes gradientShift {
+          0%, 100% { background-position: 0% 50%; }
+          50% { background-position: 100% 50%; }
+        }
+
+        .theme-toggle {
+          background: var(--card-bg);
+          border: 1px solid var(--border-color);
+          border-radius: 50%;
+          width: 45px;
+          height: 45px;
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          cursor: pointer;
+          transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+          font-size: 1.2rem;
+        }
+
+        .theme-toggle:hover {
+          background: var(--primary-purple);
+          transform: rotate(180deg) scale(1.1);
+          box-shadow: 0 8px 25px rgba(140, 122, 203, 0.4);
+        }
+
+        /* Container */
+        .container {
+          max-width: 1400px;
+          margin: 0 auto;
+          padding: 140px 2rem 4rem;
+          text-align: center;
+        }
+
+        .hero-title {
+          font-size: 3.5rem;
+          font-weight: 900;
+          margin-bottom: 1rem;
+          background: var(--gradient-animated);
+          background-size: 300% 300%;
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          animation: gradientShift 4s ease-in-out infinite;
+          letter-spacing: -0.02em;
+        }
+
+        .hero-subtitle {
+          font-size: 1.3rem;
+          color: var(--text-secondary);
+          margin-bottom: 2rem;
+          font-weight: 300;
+        }
+
+        /* Billing Toggle */
+        .billing-toggle {
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          gap: 1rem;
+          margin-bottom: 3rem;
+          padding: 0.5rem;
+          background: var(--card-bg);
+          border-radius: 50px;
+          backdrop-filter: var(--blur);
+          border: 1px solid var(--border-color);
+          max-width: 300px;
+          margin-left: auto;
+          margin-right: auto;
+        }
+
+        .billing-option {
+          padding: 0.7rem 1.5rem;
+          border-radius: 25px;
+          cursor: pointer;
+          transition: all 0.3s ease;
+          font-weight: 600;
+          position: relative;
+        }
+
+        .billing-option.active {
+          background: var(--primary-purple);
+          box-shadow: 0 4px 15px rgba(140, 122, 203, 0.4);
+        }
+
+        .billing-option:not(.active) {
+          color: var(--text-secondary);
+        }
+
+        .savings-badge {
+          position: absolute;
+          top: -8px;
+          right: -8px;
+          background: var(--warning-color);
+          color: #000;
+          font-size: 0.7rem;
+          padding: 0.2rem 0.4rem;
+          border-radius: 10px;
+          font-weight: 700;
+        }
+
+        /* Pricing Cards */
+        .pricing-grid {
+          display: grid;
+          grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+          gap: 2.5rem;
+          justify-content: center;
+          perspective: 1000px;
+        }
+
+        .pricing-card {
+          background: var(--card-bg);
+          backdrop-filter: var(--blur);
+          border: 1px solid var(--border-color);
+          border-radius: 24px;
+          padding: 2.5rem;
+          text-align: center;
+          transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+          box-shadow: var(--shadow);
+          position: relative;
+          display: flex;
+          flex-direction: column;
+          height: 100%;
+          transform-style: preserve-3d;
+          overflow: hidden;
+        }
+
+        .pricing-card::before {
+          content: '';
+          position: absolute;
+          top: 0;
+          left: 0;
+          right: 0;
+          bottom: 0;
+          background: linear-gradient(135deg, rgba(255,255,255,0.1) 0%, transparent 100%);
+          border-radius: 24px;
+          opacity: 0;
+          transition: opacity 0.3s ease;
+        }
+
+        .pricing-card:hover {
+          transform: translateY(-12px) rotateX(5deg);
+          box-shadow: var(--shadow-hover);
+          border-color: var(--primary-purple);
+        }
+
+        .pricing-card:hover::before {
+          opacity: 1;
+        }
+
+        .pricing-card.featured {
+          border: 2px solid var(--primary-purple);
+          box-shadow: 0 0 30px rgba(140, 122, 203, 0.4);
+          transform: scale(1.02);
+        }
+
+        .pricing-card.featured::after {
+          content: 'Most Popular';
+          position: absolute;
+          top: -1px;
+          left: 50%;
+          transform: translateX(-50%);
+          background: var(--gradient-animated);
+          background-size: 300% 300%;
+          animation: gradientShift 3s ease-in-out infinite;
+          color: white;
+          padding: 0.5rem 1.5rem;
+          border-radius: 0 0 15px 15px;
+          font-size: 0.8rem;
+          font-weight: 700;
+          letter-spacing: 0.5px;
+        }
+
+        .plan-name {
+          font-size: 1.8rem;
+          font-weight: 800;
+          margin-bottom: 0.5rem;
+          margin-top: 0.5rem;
+        }
+
+        .plan-price {
+          font-size: 3.2rem;
+          font-weight: 900;
+          margin-bottom: 0.3rem;
+          background: var(--gradient-animated);
+          background-size: 300% 300%;
+          -webkit-background-clip: text;
+          -webkit-text-fill-color: transparent;
+          animation: gradientShift 4s ease-in-out infinite;
+          line-height: 1;
+        }
+
+        .plan-period {
+          color: var(--text-secondary);
+          margin-bottom: 1.5rem;
+          font-weight: 500;
+        }
+
+        .plan-features {
+          list-style: none;
+          margin-bottom: 2.5rem;
+          text-align: left;
+          flex-grow: 1;
+        }
+
+        .plan-features li {
+          margin: 0.8rem 0;
+          padding-left: 2rem;
+          position: relative;
+          color: var(--text-secondary);
+          font-weight: 400;
+          transition: color 0.3s ease;
+        }
+
+        .plan-features li::before {
+          content: "✓";
+          position: absolute;
+          left: 0;
+          color: var(--success-color);
+          font-weight: 700;
+          width: 20px;
+          height: 20px;
+          border-radius: 50%;
+          background: rgba(74, 222, 128, 0.1);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          font-size: 0.8rem;
+        }
+
+        .pricing-card:hover .plan-features li {
+          color: var(--text-primary);
+        }
+
+        .plan-button {
+          width: 100%;
+          padding: 1.1rem;
+          border: none;
+          border-radius: 15px;
+          font-size: 1.1rem;
+          font-weight: 700;
+          cursor: pointer;
+          background: var(--gradient-animated);
+          background-size: 300% 300%;
+          color: white;
+          transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+          position: relative;
+          overflow: hidden;
+          letter-spacing: 0.5px;
+        }
+
+        .plan-button::before {
+          content: '';
+          position: absolute;
+          top: 50%;
+          left: 50%;
+          width: 0;
+          height: 0;
+          background: rgba(255, 255, 255, 0.2);
+          border-radius: 50%;
+          transform: translate(-50%, -50%);
+          transition: all 0.5s ease;
+        }
+
+        .plan-button:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 15px 35px rgba(140, 122, 203, 0.4);
+          animation: gradientShift 2s ease-in-out infinite;
+        }
+
+        .plan-button:hover::before {
+          width: 300px;
+          height: 300px;
+        }
+
+        .plan-button:active {
+          transform: translateY(0);
+        }
+
+        /* Responsive */
+        @media (max-width: 768px) {
+          .hero-title { 
+            font-size: 2.5rem; 
+          }
+          .container { 
+            padding: 120px 1rem 2rem; 
+          }
+          .pricing-grid {
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+          }
+          .pricing-card {
+            padding: 2rem;
+          }
+          .billing-toggle {
+            flex-direction: column;
+            gap: 0.5rem;
+            padding: 1rem;
+          }
+        }
+      </style>
+    </head>
+    <body>
+      <!-- Header -->
+      <header class="header">
+        <div class="logo">Jehonë</div>
+        <button class="theme-toggle" onclick="toggleTheme()">🌙</button>
+      </header>
+
+      <!-- Main Content -->
+      <div class="container">
+        <h1 class="hero-title">Choose Your Perfect Plan</h1>
+        <p class="hero-subtitle">Unlock your potential with our flexible pricing options</p>
+
+        <!-- Billing Toggle -->
+        <div class="billing-toggle">
+          <div class="billing-option active" onclick="toggleBilling('monthly')">Monthly</div>
+          <div class="billing-option" onclick="toggleBilling('yearly')">
+            Yearly
+            <span class="savings-badge">Save 20%</span>
+          </div>
+        </div>
+
+        <div class="pricing-grid">
+          <!-- Basic -->
+          <div class="pricing-card">
+            <h3 class="plan-name">Basic</h3>
+            <div class="plan-price" data-monthly="9" data-yearly="7">$9</div>
+            <div class="plan-period">per month</div>
+            <ul class="plan-features">
+              <li>Up to 5 projects</li>
+              <li>Basic support</li>
+              <li>1GB storage</li>
+              <li>Email notifications</li>
+              <li>Basic analytics</li>
+            </ul>
+            <button class="plan-button">Get Started</button>
+          </div>
+
+          <!-- Starter -->
+          <div class="pricing-card featured">
+            <h3 class="plan-name">Starter</h3>
+            <div class="plan-price" data-monthly="19" data-yearly="15">$19</div>
+            <div class="plan-period">per month</div>
+            <ul class="plan-features">
+              <li>Up to 25 projects</li>
+              <li>Priority support</li>
+              <li>10GB storage</li>
+              <li>Advanced notifications</li>
+              <li>Detailed analytics</li>
+              <li>Team collaboration</li>
+              <li>Custom integrations</li>
+            </ul>
+            <button class="plan-button">Choose Starter</button>
+          </div>
+
+          <!-- Premium -->
+          <div class="pricing-card">
+            <h3 class="plan-name">Premium</h3>
+            <div class="plan-price" data-monthly="39" data-yearly="31">$39</div>
+            <div class="plan-period">per month</div>
+            <ul class="plan-features">
+              <li>Unlimited projects</li>
+              <li>24/7 premium support</li>
+              <li>100GB storage</li>
+              <li>Real-time notifications</li>
+              <li>Advanced analytics & reports</li>
+              <li>Advanced team features</li>
+              <li>API access</li>
+              <li>White-label options</li>
+              <li>Custom branding</li>
+            </ul>
+            <button class="plan-button">Go Premium</button>
+          </div>
+        </div>
+      </div>
+
+      <script>
+        let currentBilling = 'monthly';
+
+        // Theme toggle
+        function toggleTheme() {
+          const html = document.documentElement;
+          const current = html.getAttribute("data-theme");
+          const next = current === "dark" ? "light" : "dark";
+          html.setAttribute("data-theme", next);
+          document.querySelector(".theme-toggle").textContent = next === "dark" ? "☀️" : "🌙";
+        }
+
+        // Billing toggle
+        function toggleBilling(type) {
+          currentBilling = type;
+          
+          // Update toggle buttons
+          document.querySelectorAll('.billing-option').forEach(option => {
+            option.classList.remove('active');
+          });
+          document.querySelector(`[onclick="toggleBilling('${type}')"]`).classList.add('active');
+          
+          // Update prices with animation
+          document.querySelectorAll('.plan-price').forEach(priceEl => {
+            const monthlyPrice = priceEl.getAttribute('data-monthly');
+            const yearlyPrice = priceEl.getAttribute('data-yearly');
+            const newPrice = type === 'yearly' ? yearlyPrice : monthlyPrice;
+            
+            // Animate price change
+            priceEl.style.transform = 'scale(0.8)';
+            priceEl.style.opacity = '0';
+            
+            setTimeout(() => {
+              priceEl.textContent = `$${newPrice}`;
+              priceEl.style.transform = 'scale(1)';
+              priceEl.style.opacity = '1';
+            }, 150);
+          });
+          
+          // Update period text
+          document.querySelectorAll('.plan-period').forEach(periodEl => {
+            periodEl.style.transform = 'scale(0.8)';
+            periodEl.style.opacity = '0';
+            
+            setTimeout(() => {
+              periodEl.textContent = type === 'yearly' ? 'per month, billed yearly' : 'per month';
+              periodEl.style.transform = 'scale(1)';
+              periodEl.style.opacity = '1';
+            }, 150);
+          });
+        }
+
+        // Initialize theme
+        document.addEventListener("DOMContentLoaded", () => {
+          const saved = "light";
+          document.documentElement.setAttribute("data-theme", saved);
+          document.querySelector(".theme-toggle").textContent = saved === "dark" ? "☀️" : "🌙";
+          
+          // Add smooth transitions to price elements
+          document.querySelectorAll('.plan-price, .plan-period').forEach(el => {
+            el.style.transition = 'all 0.3s cubic-bezier(0.4, 0, 0.2, 1)';
+          });
+        });
+
+        // Add ripple effect to buttons
+        document.addEventListener('click', function(e) {
+          if (e.target.classList.contains('plan-button')) {
+            const button = e.target;
+            const ripple = document.createElement('span');
+            const rect = button.getBoundingClientRect();
+            const size = Math.max(rect.height, rect.width);
+            const x = e.clientX - rect.left - size / 2;
+            const y = e.clientY - rect.top - size / 2;
+            
+            ripple.style.width = ripple.style.height = size + 'px';
+            ripple.style.left = x + 'px';
+            ripple.style.top = y + 'px';
+            ripple.classList.add('ripple');
+            
+            button.appendChild(ripple);
+            
+            setTimeout(() => {
+              ripple.remove();
+            }, 600);
+          }
+        });
+      </script>
+    </body>
+    </html>

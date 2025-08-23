@@ -1,0 +1,707 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Jehonë - Complete Your Purchase</title>
+  <style>
+    :root {
+      --primary-purple: #8c7acb;
+      --secondary-purple: #68489a;
+      --dark-purple: #4f258d;
+      --light-purple: #abb4f9;
+      --accent-purple: #b794f6;
+      --bg-primary: linear-gradient(135deg, #8c7acb 0%, #68489a 50%, #4f258d 100%);
+      --card-bg: rgba(255, 255, 255, 0.1);
+      --input-bg: rgba(255, 255, 255, 0.05);
+      --border-color: rgba(255, 255, 255, 0.3);
+      --text-primary: #ffffff;
+      --text-secondary: rgba(255, 255, 255, 0.85);
+      --success-color: #4ade80;
+      --error-color: #ef4444;
+      --warning-color: #fbbf24;
+      --shadow: 0 20px 40px rgba(0, 0, 0, 0.15);
+      --shadow-hover: 0 30px 60px rgba(140, 122, 203, 0.3);
+      --blur: blur(20px);
+      --gradient-animated: linear-gradient(45deg, var(--primary-purple), var(--accent-purple), var(--light-purple), var(--primary-purple));
+    }
+
+    [data-theme="dark"] {
+      --bg-primary: linear-gradient(135deg, #2a1f3d 0%, #1a1625 50%, #0f0a1a 100%);
+      --card-bg: rgba(255, 255, 255, 0.05);
+      --input-bg: rgba(255, 255, 255, 0.03);
+      --border-color: rgba(255, 255, 255, 0.15);
+      --text-primary: #ffffff;
+      --text-secondary: rgba(255, 255, 255, 0.8);
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background: var(--bg-primary);
+      color: var(--text-primary);
+      min-height: 100vh;
+      overflow-x: hidden;
+    }
+
+    /* Animated Background */
+    body::before {
+      content: '';
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: 
+        radial-gradient(circle at 20% 80%, rgba(140, 122, 203, 0.3) 0%, transparent 50%),
+        radial-gradient(circle at 80% 20%, rgba(171, 180, 249, 0.2) 0%, transparent 50%),
+        radial-gradient(circle at 40% 40%, rgba(104, 72, 154, 0.2) 0%, transparent 50%);
+      animation: floatingBg 20s ease-in-out infinite;
+      z-index: -1;
+    }
+
+    @keyframes floatingBg {
+      0%, 100% { transform: scale(1) rotate(0deg); }
+      50% { transform: scale(1.1) rotate(5deg); }
+    }
+
+    /* Header */
+    .header {
+      position: fixed;
+      top: 0;
+      left: 0;
+      right: 0;
+      padding: 1.2rem 2rem;
+      background: var(--card-bg);
+      backdrop-filter: var(--blur);
+      border-bottom: 1px solid var(--border-color);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    .logo {
+      font-size: 1.8rem;
+      font-weight: 800;
+      background: var(--gradient-animated);
+      background-size: 300% 300%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: gradientShift 3s ease-in-out infinite;
+    }
+
+    @keyframes gradientShift {
+      0%, 100% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+    }
+
+    .back-button {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: var(--card-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 10px;
+      padding: 0.5rem 1rem;
+      color: var(--text-primary);
+      text-decoration: none;
+      transition: all 0.3s ease;
+      font-weight: 500;
+    }
+
+    .back-button:hover {
+      background: var(--primary-purple);
+      transform: translateX(-2px);
+    }
+
+    .theme-toggle:hover {
+      background: var(--primary-purple);
+      transform: rotate(180deg) scale(1.1);
+      box-shadow: 0 8px 25px rgba(140, 122, 203, 0.4);
+    }
+
+    /* Main Container */
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 140px 2rem 4rem;
+      display: grid;
+      grid-template-columns: 1fr 400px;
+      gap: 3rem;
+      align-items: start;
+    }
+
+    /* Checkout Form */
+    .checkout-section {
+      background: var(--card-bg);
+      backdrop-filter: var(--blur);
+      border: 1px solid var(--border-color);
+      border-radius: 24px;
+      padding: 2.5rem;
+      box-shadow: var(--shadow);
+    }
+
+    .section-title {
+      font-size: 1.8rem;
+      font-weight: 700;
+      margin-bottom: 1.5rem;
+      background: var(--gradient-animated);
+      background-size: 300% 300%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: gradientShift 4s ease-in-out infinite;
+    }
+
+    .form-group {
+      margin-bottom: 1.5rem;
+    }
+
+    .form-row {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1rem;
+    }
+
+    .form-label {
+      display: block;
+      margin-bottom: 0.5rem;
+      font-weight: 600;
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+    }
+
+    .form-input {
+      width: 100%;
+      padding: 1rem;
+      background: var(--input-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      color: var(--text-primary);
+      font-size: 1rem;
+      transition: all 0.3s ease;
+      backdrop-filter: var(--blur);
+    }
+
+    .form-input:focus {
+      outline: none;
+      border-color: var(--primary-purple);
+      background: rgba(255, 255, 255, 0.08);
+      box-shadow: 0 0 0 3px rgba(140, 122, 203, 0.1);
+    }
+
+    .form-input::placeholder {
+      color: rgba(255, 255, 255, 0.4);
+    }
+
+    /* Payment Methods */
+    .payment-methods {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .payment-method {
+      background: var(--input-bg);
+      border: 1px solid var(--border-color);
+      border-radius: 12px;
+      padding: 1rem;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      cursor: pointer;
+      transition: all 0.3s ease;
+      font-size: 1.5rem;
+    }
+
+    .payment-method:hover,
+    .payment-method.active {
+      border-color: var(--primary-purple);
+      background: rgba(140, 122, 203, 0.1);
+      transform: translateY(-2px);
+    }
+
+    /* Security Badge */
+    .security-info {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 1rem;
+      background: rgba(74, 222, 128, 0.1);
+      border: 1px solid rgba(74, 222, 128, 0.2);
+      border-radius: 12px;
+      margin-bottom: 1.5rem;
+      font-size: 0.9rem;
+      color: var(--success-color);
+    }
+
+    /* Order Summary */
+    .order-summary {
+      position: sticky;
+      top: 140px;
+    }
+
+    .summary-card {
+      background: var(--card-bg);
+      backdrop-filter: var(--blur);
+      border: 1px solid var(--border-color);
+      border-radius: 24px;
+      padding: 2rem;
+      box-shadow: var(--shadow);
+    }
+
+    .plan-info {
+      text-align: center;
+      padding: 1.5rem;
+      background: var(--input-bg);
+      border-radius: 16px;
+      margin-bottom: 1.5rem;
+      border: 1px solid var(--border-color);
+    }
+
+    .plan-name {
+      font-size: 1.3rem;
+      font-weight: 700;
+      margin-bottom: 0.5rem;
+    }
+
+    .plan-price {
+      font-size: 2rem;
+      font-weight: 800;
+      background: var(--gradient-animated);
+      background-size: 300% 300%;
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      animation: gradientShift 4s ease-in-out infinite;
+    }
+
+    .plan-period {
+      color: var(--text-secondary);
+      font-size: 0.9rem;
+    }
+
+    .summary-row {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.8rem 0;
+      border-bottom: 1px solid var(--border-color);
+    }
+
+    .summary-row:last-child {
+      border-bottom: none;
+      font-weight: 700;
+      font-size: 1.1rem;
+    }
+
+    .discount {
+      color: var(--success-color);
+    }
+
+    /* Buttons */
+    .btn {
+      padding: 1.1rem 2rem;
+      border: none;
+      border-radius: 12px;
+      font-size: 1.1rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      letter-spacing: 0.5px;
+    }
+
+    .btn-primary {
+      background: var(--gradient-animated);
+      background-size: 300% 300%;
+      color: white;
+      width: 100%;
+      margin-top: 1rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .btn-primary:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 15px 35px rgba(140, 122, 203, 0.4);
+      animation: gradientShift 2s ease-in-out infinite;
+    }
+
+    .btn-primary:disabled {
+      opacity: 0.6;
+      cursor: not-allowed;
+      transform: none;
+    }
+
+    .loading-spinner {
+      width: 20px;
+      height: 20px;
+      border: 2px solid rgba(255, 255, 255, 0.3);
+      border-top: 2px solid white;
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+      display: none;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
+    /* Trust Indicators */
+    .trust-indicators {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin-top: 1rem;
+      opacity: 0.7;
+    }
+
+    .trust-badge {
+      font-size: 0.8rem;
+      color: var(--text-secondary);
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      .container {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+        padding: 120px 1rem 2rem;
+      }
+      
+      .order-summary {
+        position: static;
+        order: -1;
+      }
+      
+      .form-row {
+        grid-template-columns: 1fr;
+      }
+      
+      .checkout-section,
+      .summary-card {
+        padding: 1.5rem;
+      }
+    }
+
+    /* Form Validation */
+    .form-input.error {
+      border-color: var(--error-color);
+      background: rgba(239, 68, 68, 0.1);
+    }
+
+    .error-message {
+      color: var(--error-color);
+      font-size: 0.8rem;
+      margin-top: 0.3rem;
+    }
+  </style>
+</head>
+<body>
+  <!-- Header -->
+  <header class="header">
+    <div class="logo">Jehonë</div>
+    <div style="display: flex; align-items: center; gap: 1rem;">
+      <button class="theme-toggle" onclick="toggleTheme()" style="background: var(--card-bg); border: 1px solid var(--border-color); border-radius: 50%; width: 40px; height: 40px; display: flex; align-items: center; justify-content: center; cursor: pointer; transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1); font-size: 1.2rem; color: var(--text-primary);">🌙</button>
+      <a href="#" class="back-button" onclick="goBack()">
+        ← Back to Plans
+      </a>
+    </div>
+  </header>
+
+  <!-- Main Content -->
+  <div class="container">
+    <!-- Checkout Form -->
+    <div class="checkout-section">
+      <h2 class="section-title">Complete Your Purchase</h2>
+      
+      <form id="checkout-form">
+        <!-- Contact Information -->
+        <div class="form-group">
+          <h3 style="margin-bottom: 1rem; color: var(--text-secondary);">Contact Information</h3>
+          <div class="form-row">
+            <div>
+              <label class="form-label">First Name *</label>
+              <input type="text" class="form-input" placeholder="John" required>
+            </div>
+            <div>
+              <label class="form-label">Last Name *</label>
+              <input type="text" class="form-input" placeholder="Doe" required>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="form-label">Email Address *</label>
+            <input type="email" class="form-input" placeholder="john@example.com" required>
+          </div>
+        </div>
+
+        <!-- Payment Method -->
+        <div class="form-group">
+          <h3 style="margin-bottom: 1rem; color: var(--text-secondary);">Payment Method</h3>
+          <div class="payment-methods">
+            <div class="payment-method active" data-method="card">💳</div>
+            <div class="payment-method" data-method="paypal">🅿️</div>
+            <div class="payment-method" data-method="apple">🍎</div>
+            <div class="payment-method" data-method="google">🟢</div>
+          </div>
+        </div>
+
+        <!-- Card Details -->
+        <div id="card-details">
+          <div class="form-group">
+            <label class="form-label">Card Number *</label>
+            <input type="text" class="form-input" placeholder="1234 5678 9012 3456" maxlength="19" required>
+          </div>
+          
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">Expiry Date *</label>
+              <input type="text" class="form-input" placeholder="MM/YY" maxlength="5" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">CVV *</label>
+              <input type="text" class="form-input" placeholder="123" maxlength="4" required>
+            </div>
+          </div>
+        </div>
+
+        <!-- Billing Address -->
+        <div class="form-group">
+          <h3 style="margin-bottom: 1rem; color: var(--text-secondary);">Billing Address</h3>
+          <div class="form-group">
+            <label class="form-label">Address *</label>
+            <input type="text" class="form-input" placeholder="123 Main Street" required>
+          </div>
+          
+          <div class="form-row">
+            <div class="form-group">
+              <label class="form-label">City *</label>
+              <input type="text" class="form-input" placeholder="New York" required>
+            </div>
+            <div class="form-group">
+              <label class="form-label">ZIP Code *</label>
+              <input type="text" class="form-input" placeholder="10001" required>
+            </div>
+          </div>
+        </div>
+
+        <!-- Security Info -->
+        <div class="security-info">
+          <span>🔒</span>
+          <span>Your payment information is encrypted and secure</span>
+        </div>
+
+        <button type="submit" class="btn btn-primary" id="pay-button">
+          <span class="button-text">Complete Purchase</span>
+          <div class="loading-spinner" id="loading-spinner"></div>
+        </button>
+
+        <div class="trust-indicators">
+          <span class="trust-badge">🔒 SSL Secured</span>
+          <span class="trust-badge">💳 PCI Compliant</span>
+          <span class="trust-badge">⚡ Instant Activation</span>
+        </div>
+      </form>
+    </div>
+
+    <!-- Order Summary -->
+    <div class="order-summary">
+      <div class="summary-card">
+        <h3 class="section-title" style="margin-bottom: 1rem;">Order Summary</h3>
+        
+        <div class="plan-info">
+          <div class="plan-name">Starter Plan</div>
+          <div class="plan-price">$19</div>
+          <div class="plan-period">per month</div>
+        </div>
+
+        <div class="summary-row">
+          <span>Subtotal</span>
+          <span>$19.00</span>
+        </div>
+        
+        <div class="summary-row">
+          <span>Tax</span>
+          <span>$2.28</span>
+        </div>
+        
+        <div class="summary-row discount" style="border-bottom: 1px solid var(--border-color);">
+          <span>First Month (50% off)</span>
+          <span>-$9.50</span>
+        </div>
+        
+        <div class="summary-row">
+          <span>Total</span>
+          <span>$11.78</span>
+        </div>
+
+        <div style="margin-top: 1.5rem; padding-top: 1.5rem; border-top: 1px solid var(--border-color); font-size: 0.9rem; color: var(--text-secondary); text-align: center;">
+          <p>✨ 30-day money-back guarantee</p>
+          <p>📞 24/7 customer support</p>
+          <p>🚀 Instant account activation</p>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Payment method selection
+    document.querySelectorAll('.payment-method').forEach(method => {
+      method.addEventListener('click', function() {
+        document.querySelectorAll('.payment-method').forEach(m => m.classList.remove('active'));
+        this.classList.add('active');
+        
+        const methodType = this.getAttribute('data-method');
+        const cardDetails = document.getElementById('card-details');
+        
+        if (methodType === 'card') {
+          cardDetails.style.display = 'block';
+        } else {
+          cardDetails.style.display = 'none';
+        }
+      });
+    });
+
+    // Card number formatting
+    document.querySelector('input[placeholder="1234 5678 9012 3456"]').addEventListener('input', function(e) {
+      let value = e.target.value.replace(/\s+/g, '').replace(/[^0-9]/gi, '');
+      let formattedValue = value.match(/.{1,4}/g)?.join(' ') || value;
+      if (formattedValue.length > 19) formattedValue = formattedValue.slice(0, 19);
+      e.target.value = formattedValue;
+    });
+
+    // Expiry date formatting
+    document.querySelector('input[placeholder="MM/YY"]').addEventListener('input', function(e) {
+      let value = e.target.value.replace(/\D/g, '');
+      if (value.length >= 2) {
+        value = value.slice(0, 2) + '/' + value.slice(2, 4);
+      }
+      e.target.value = value;
+    });
+
+    // CVV validation
+    document.querySelector('input[placeholder="123"]').addEventListener('input', function(e) {
+      e.target.value = e.target.value.replace(/[^0-9]/gi, '');
+    });
+
+    // Form submission
+    document.getElementById('checkout-form').addEventListener('submit', function(e) {
+      e.preventDefault();
+      
+      const button = document.getElementById('pay-button');
+      const buttonText = button.querySelector('.button-text');
+      const spinner = document.getElementById('loading-spinner');
+      
+      // Show loading state
+      button.disabled = true;
+      buttonText.style.display = 'none';
+      spinner.style.display = 'block';
+      
+      // Simulate payment processing
+      setTimeout(() => {
+        // Hide loading state
+        spinner.style.display = 'none';
+        buttonText.textContent = 'Payment Successful! ✓';
+        buttonText.style.display = 'block';
+        button.style.background = 'var(--success-color)';
+        
+        // Redirect after success (simulation)
+        setTimeout(() => {
+          alert('Payment successful! Welcome to Jehonë Starter Plan!');
+          // In real implementation, redirect to dashboard
+          // window.location.href = '/dashboard';
+        }, 1000);
+      }, 2000);
+    });
+
+    // Theme toggle functionality
+    function toggleTheme() {
+      const html = document.documentElement;
+      const current = html.getAttribute("data-theme");
+      const next = current === "dark" ? "light" : "dark";
+      html.setAttribute("data-theme", next);
+      document.querySelector(".theme-toggle").textContent = next === "dark" ? "☀️" : "🌙";
+    }
+
+    // Back button
+    function goBack() {
+      // In real implementation, go back to pricing page
+      window.history.back();
+    }
+
+    // Real-time form validation
+    document.querySelectorAll('.form-input').forEach(input => {
+      input.addEventListener('blur', validateField);
+      input.addEventListener('input', clearError);
+    });
+
+    function validateField(e) {
+      const field = e.target;
+      const value = field.value.trim();
+      
+      // Remove existing error
+      field.classList.remove('error');
+      const existingError = field.parentNode.querySelector('.error-message');
+      if (existingError) {
+        existingError.remove();
+      }
+      
+      // Validate based on field type
+      let isValid = true;
+      let errorMessage = '';
+      
+      if (field.hasAttribute('required') && !value) {
+        isValid = false;
+        errorMessage = 'This field is required';
+      } else if (field.type === 'email' && value && !isValidEmail(value)) {
+        isValid = false;
+        errorMessage = 'Please enter a valid email address';
+      }
+      
+      if (!isValid) {
+        field.classList.add('error');
+        const errorDiv = document.createElement('div');
+        errorDiv.className = 'error-message';
+        errorDiv.textContent = errorMessage;
+        field.parentNode.appendChild(errorDiv);
+      }
+    }
+
+    function clearError(e) {
+      const field = e.target;
+      field.classList.remove('error');
+      const existingError = field.parentNode.querySelector('.error-message');
+      if (existingError) {
+        existingError.remove();
+      }
+    }
+
+    function isValidEmail(email) {
+      return /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email);
+    }
+
+    // Initialize
+    document.addEventListener("DOMContentLoaded", () => {
+      // Initialize theme
+      const savedTheme = "light"; // Default theme since localStorage is not supported
+      document.documentElement.setAttribute("data-theme", savedTheme);
+      document.querySelector(".theme-toggle").textContent = savedTheme === "dark" ? "☀️" : "🌙";
+      
+      // Add smooth transitions to all inputs
+      document.querySelectorAll('.form-input').forEach(input => {
+        input.style.transition = 'all 0.3s ease';
+      });
+    });
+  </script>
+</body>
+</html>
