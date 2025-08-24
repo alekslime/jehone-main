@@ -75,27 +75,27 @@
 
         /* Enhanced dark mode with new color palette - kept darker with grays */
         [data-theme="dark"] {
-            /* Making dark mode much darker with grays and deeper purples */
-            --bg-primary: linear-gradient(135deg, #0f0f0f 0%, #1a1a1a 25%, #2a1b32 50%, #352240 100%);
-            --bg-secondary: rgba(15, 15, 15, 0.95);
-            --bg-tertiary: rgba(20, 20, 20, 0.98);
-            --text-primary: #ffffff;
-            --text-secondary: #e5e5e5;
-            --text-tertiary: #cccccc;
-            --text-inverse: #0f0f0f;
-            --card-bg: rgba(25, 25, 25, 0.8);
-            --card-border: rgba(255, 255, 255, 0.08);
-            --nav-bg: rgba(15, 15, 15, 0.98);
-            --accent-color: var(--primary-400);
-            --accent-hover: var(--primary-300);
-            --border-color: rgba(255, 255, 255, 0.1);
-            --shadow-light: 0 1px 3px rgba(0, 0, 0, 0.5);
-            --shadow-medium: 0 4px 12px rgba(0, 0, 0, 0.6);
-            --shadow-large: 0 20px 40px rgba(0, 0, 0, 0.8);
-            --shadow-xl: 0 25px 50px rgba(0, 0, 0, 0.9);
+            /* Reduced green to minimal accents only, back to purple-based dark mode */
+            --bg-primary: linear-gradient(135deg, #1a1d29 0%, #2d1b3d 50%, #3f3a5b 100%);
+            --bg-secondary: rgba(26, 29, 41, 0.95);
+            --bg-tertiary: rgba(35, 25, 45, 0.98);
+            --text-primary: #e8f4f8;
+            --text-secondary: #c1d5db;
+            --text-tertiary: #9bb5bd;
+            --text-inverse: #1a1d29;
+            --card-bg: rgba(45, 27, 61, 0.4);
+            --card-border: rgba(63, 58, 91, 0.3);
+            --nav-bg: rgba(26, 29, 41, 0.98);
+            --accent-color: #527664;
+            --accent-hover: #6b9b7f;
+            --border-color: rgba(63, 58, 91, 0.2);
+            --shadow-light: 0 1px 3px rgba(26, 29, 41, 0.6);
+            --shadow-medium: 0 4px 12px rgba(26, 29, 41, 0.7);
+            --shadow-large: 0 20px 40px rgba(26, 29, 41, 0.8);
+            --shadow-xl: 0 25px 50px rgba(26, 29, 41, 0.9);
             
-            --glass-bg: rgba(30, 30, 30, 0.4);
-            --glass-border: rgba(255, 255, 255, 0.08);
+            --glass-bg: rgba(45, 27, 61, 0.15);
+            --glass-border: rgba(63, 58, 91, 0.25);
         }
 
         /* Modern reset with better typography */
@@ -513,7 +513,7 @@
 
         /* Enhanced gradient text with new color palette */
         .gradient-text {
-            background: linear-gradient(135deg, var(--primary-200), var(--primary-50), var(--primary-100));
+            background: linear-gradient(135deg, #795071, #986388, #3F3A5B, #402950);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
@@ -1288,7 +1288,7 @@
             background: linear-gradient(135deg, 
                 rgba(79, 37, 141, 0.08) 0%, 
                 rgba(140, 122, 203, 0.06) 50%,
-                rgba(171, 180, 249, 0.04) 100%);
+                rgba(171, 180, 249, 0.03) 100%);
             color: #1a1a1a;
             border: 1px solid rgba(79, 37, 141, 0.12);
         }
@@ -1656,7 +1656,7 @@
         <li><a href="#subjects" onclick="closeMobileMenu()">📚 Lëndët</a></li>
         <li><a href="#classes" onclick="closeMobileMenu()">🎓 Klasat</a></li>
         <li><a href="#accessibility" onclick="closeMobileMenu()">
-            <!-- replaced wheelchair emoji with SVG accessibility icon -->
+            <!-- replaced wheelchair emoji with larger SVG accessibility icon -->
             <svg width="16" height="16" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" style="display: inline-block; margin-right: 8px;">
                 <path d="M12 2C13.1 2 14 2.9 14 4C14 5.1 13.1 6 12 6C10.9 6 10 5.1 10 4C10 2.9 10.9 2 12 2ZM21 9V7L15 7.5V9C15 10.1 14.1 11 13 11H11C9.9 11 9 10.1 9 9V7.5L3 7V9H5V16C5 17.1 5.9 18 7 18H9C10.1 18 11 17.1 11 16V13H13V16C13 17.1 13.9 18 15 18H17C18.1 18 19 17.1 19 16V9H21ZM13 9.5H11V11.5H13V9.5Z" fill="currentColor"/>
             Aksesueshmëria
